@@ -1,0 +1,17 @@
+Prerequisites
+
+NodeJS
+Nagios
+NRPE (optional)
+
+
+$ sudo apt-get install npm
+$ sudo npm install -g nagios-redis
+
+-------------------------------------------
+sudo cpan
+  	cpan> install Redis
+
+
+https://exchange.nagios.org/directory/Plugins/Databases/check_redis-2Epl/details
+

@@ -1,0 +1,22 @@
+https://help.sonatype.com/display/NXRM3/Upgrading#Upgrading-StartingtheUpgrade
+
+1. Backup nexus workspace
+2. Upgrade nexus 2x (2.7.1) to latest 2x version (2.14.2)
+3. Use the old nexus workspace with 2.14.2
+
+Follow below options to upgrade 2.14.2 to 3.5.2   (2x  to 3x)
+
+
+To upgrade the sonatype nexus from 2.7.1 to 3.5.2, we required follwoing:
+
+1. 200GB disk space
+2. root (sudo) access
+
+Upgrade process is as follows.
+
+1. Backup 2.7.1 sonatype-nexus workspace
+2. Upgrade v2.7.1 to v2.14.2
+3. Migrate/Upgrade v2.14.2 to 3.5.2
+4. Configuration changes in v3.5.2
+5. Testing
+

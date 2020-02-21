@@ -1,0 +1,18 @@
+define service{
+                      use   generic-service
+                      host_name   localhost
+                      service_description   Redis Processes
+                      check_command       check_nrpe!check_redis_procs
+}
+define service{
+                      use   generic-service
+                      host_name localhost
+                      service_description  Redis Memory Usage
+                      check_command      check_nrpe!check_redis_mem
+}
+define service{
+                       use generic-service
+                       host_name localhost
+                       service_description  Redis Connected Clients
+                       check_command     check_nrpe!check_redis_clients
+}

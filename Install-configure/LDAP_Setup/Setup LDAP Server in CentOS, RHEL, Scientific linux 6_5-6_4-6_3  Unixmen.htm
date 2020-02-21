@@ -1,0 +1,2245 @@
+﻿<!DOCTYPE HTML>
+<!-- saved from url=(0074)https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/ -->
+<!DOCTYPE html PUBLIC "" ""><!--[if IE 8]>    <html class="ie8" lang="en"> <![endif]--><!--[if IE 9]>    <html class="ie9" lang="en"> <![endif]--><!--[if gt IE 8]><!--><HTML 
+lang="en-US"><!--<![endif]--><HEAD><META content="IE=11.0000" 
+http-equiv="X-UA-Compatible">
+     <TITLE>Setup LDAP Server in CentOS, RHEL, Scientific linux 6.5/6.4/6.3 | 
+Unixmen</TITLE>     
+<META charset="UTF-8">          
+<META name="viewport" content="width=device-width, initial-scale=1.0">     <LINK 
+href="https://www.unixmen.com/xmlrpc.php" rel="pingback">    		 
+<STYLE type="text/css"></STYLE>
+				 
+<STYLE type="text/css"></STYLE>
+	 
+<META content="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/389ds.jpg" 
+property="og:image">
+<META name="author" content="SK"> <LINK href="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2016/02/favicon.png" 
+rel="icon" type="image/png"> <!-- This site is optimized with the Yoast SEO plugin v3.3.4 - https://yoast.com/wordpress/plugins/seo/ --> 
+<META name="description" content="In this how-to i am gonna to explain about setup LDAP server on CentOS 6.x."> 
+<META name="robots" content="noodp"> <LINK href="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/" 
+rel="canonical"> <LINK href="https://plus.google.com/+Unixmen/posts" rel="publisher"> 
+<META name="twitter:card" content="summary"> 
+<META name="twitter:description" content="In this how-to i am gonna to explain about setup LDAP server on CentOS 6.x."> 
+<META name="twitter:title" content="Setup LDAP Server in CentOS, RHEL, Scientific linux 6.5/6.4/6.3 | Unixmen"> 
+<META name="twitter:site" content="@unixmen"> 
+<META name="twitter:image" content="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/389ds.jpg"> 
+<META name="twitter:creator" content="@ostechnix"> <!-- / Yoast SEO plugin. --> 
+<LINK title="Unixmen » Feed" href="https://www.unixmen.com/feed/" rel="alternate" 
+type="application/rss+xml"> <LINK title="Unixmen » Comments Feed" href="https://www.unixmen.com/comments/feed/" 
+rel="alternate" type="application/rss+xml"> <LINK title="Unixmen » Setup LDAP Server in CentOS, RHEL, Scientific linux 6.5/6.4/6.3 Comments Feed" 
+href="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/feed/" 
+rel="alternate" type="application/rss+xml">		 
+<SCRIPT type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"https:\/\/www.unixmen.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.5.4"}};
+			!function(a,b,c){function d(a){var c,d,e,f=b.createElement("canvas"),g=f.getContext&&f.getContext("2d"),h=String.fromCharCode;if(!g||!g.fillText)return!1;switch(g.textBaseline="top",g.font="600 32px Arial",a){case"flag":return g.fillText(h(55356,56806,55356,56826),0,0),f.toDataURL().length>3e3;case"diversity":return g.fillText(h(55356,57221),0,0),c=g.getImageData(16,16,1,1).data,d=c[0]+","+c[1]+","+c[2]+","+c[3],g.fillText(h(55356,57221,55356,57343),0,0),c=g.getImageData(16,16,1,1).data,e=c[0]+","+c[1]+","+c[2]+","+c[3],d!==e;case"simple":return g.fillText(h(55357,56835),0,0),0!==g.getImageData(16,16,1,1).data[0];case"unicode8":return g.fillText(h(55356,57135),0,0),0!==g.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</SCRIPT>
+		 
+<STYLE type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</STYLE>
+ <LINK id="contact-form-7-css" href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/styles.css" 
+rel="stylesheet" type="text/css" media="all"> <LINK id="gpf-feeds-css" href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/styles(1).css" 
+rel="stylesheet" type="text/css" media="all"> <LINK id="google_font_open_sans-css" 
+href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/css.css" 
+rel="stylesheet" type="text/css" media="all"> <LINK id="google_font_roboto-css" 
+href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/css(1).css" 
+rel="stylesheet" type="text/css" media="all"> <LINK id="google-fonts-style-css" 
+href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/css(2).css" 
+rel="stylesheet" type="text/css" media="all"> <LINK id="js_composer_front-css" 
+href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/js_composer.min.css" 
+rel="stylesheet" type="text/css" media="all"> <LINK id="td-theme-css" href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/style.css" 
+rel="stylesheet" type="text/css" media="all"> 
+<SCRIPT src="https://dwlvaia9r6jw6.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.12.4" type="text/javascript"></SCRIPT>
+ 
+<SCRIPT src="https://dwlvaia9r6jw6.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1" type="text/javascript"></SCRIPT>
+ 
+<SCRIPT type="text/javascript">
+/* <![CDATA[ */
+var gpfAjax = {"ajaxurl":"https:\/\/www.unixmen.com\/wp-admin\/admin-ajax.php"};
+var gpfAjax = {"ajaxurl":"https:\/\/www.unixmen.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</SCRIPT>
+ 
+<SCRIPT src="https://dwlvaia9r6jw6.cloudfront.net/wp-content/plugins/custom-google-plus-feed/admin/js/admin.js?ver=4.5.4" type="text/javascript"></SCRIPT>
+ <LINK href="https://www.unixmen.com/wp-json/" rel="https://api.w.org/"> <LINK 
+title="RSD" href="https://www.unixmen.com/xmlrpc.php?rsd" rel="EditURI" type="application/rsd+xml"> 
+<LINK href="https://dwlvaia9r6jw6.cloudfront.net/wp-includes/wlwmanifest.xml" 
+rel="wlwmanifest" type="application/wlwmanifest+xml"> <LINK href="https://www.unixmen.com/?p=11345" 
+rel="shortlink"> <LINK href="https://www.unixmen.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.unixmen.com%2Fsetup-directory-serverldap-in-centos-6-4-rhel-6-4%2F" 
+rel="alternate" type="application/json+oembed"> <LINK href="https://www.unixmen.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.unixmen.com%2Fsetup-directory-serverldap-in-centos-6-4-rhel-6-4%2F&amp;format=xml" 
+rel="alternate" type="text/xml+oembed">         <!-- BuySellAds.com Ad Code -->  
+       
+<SCRIPT type="text/javascript">
+        (function(){
+          var bsa = document.createElement('script');
+              bsa.type= 'text/javascript';
+              bsa.async = true;
+              bsa.src='//s3.buysellads.com/ac/bsa.js';
+          (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+        })();
+        </SCRIPT>
+         <!-- END BuySellAds.com Ad Code -->       
+<SCRIPT type="text/javascript">
+var myAjaxFTS = 'https://www.unixmen.com/wp-admin/admin-ajax.php';
+</SCRIPT>
+ 
+<SCRIPT type="text/javascript">
+var myAjaxFTS = 'https://www.unixmen.com/wp-admin/admin-ajax.php';
+</SCRIPT>
+ <!--[if lt IE 9]><script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
+    
+<META name="GENERATOR" content="MSHTML 11.00.10570.1001"> <!--[if lte IE 9]><link rel="stylesheet" type="text/css" href="https://dwlvaia9r6jw6.cloudfront.net/wp-content/plugins/js_composer/assets/css/vc_lte_ie9.min.css" media="screen"><![endif]--><!--[if IE  8]><link rel="stylesheet" type="text/css" href="https://dwlvaia9r6jw6.cloudfront.net/wp-content/plugins/js_composer/assets/css/vc-ie8.min.css" media="screen"><![endif]--> <!-- JS generated by theme --> 
+<SCRIPT>
+    
+
+var tdBlocksArray = []; //here we store all the items for the current page
+
+//td_block class - each ajax block uses a object of this class for requests
+function tdBlock() {
+    this.id = '';
+    this.block_type = 1; //block type id (1-234 etc)
+    this.atts = '';
+    this.td_column_number = '';
+    this.td_current_page = 1; //
+    this.post_count = 0; //from wp
+    this.found_posts = 0; //from wp
+    this.max_num_pages = 0; //from wp
+    this.td_filter_value = ''; //current live filter value
+    this.is_ajax_running = false;
+    this.td_user_action = ''; // load more or infinite loader (used by the animation)
+    this.header_color = '';
+    this.ajax_pagination_infinite_stop = ''; //show load more at page x
+}
+
+    
+    
+        // td_js_generator - mini detector
+        (function(){
+            var htmlTag = document.getElementsByTagName("html")[0];
+
+            if ( navigator.userAgent.indexOf("MSIE 10.0") > -1 ) {
+                htmlTag.className += ' ie10';
+            }
+
+            if ( !!navigator.userAgent.match(/Trident.*rv\:11\./) ) {
+                htmlTag.className += ' ie11';
+            }
+
+            if ( /(iPad|iPhone|iPod)/g.test(navigator.userAgent) ) {
+                htmlTag.className += ' td-md-is-ios';
+            }
+
+            var user_agent = navigator.userAgent.toLowerCase();
+            if ( user_agent.indexOf("android") > -1 ) {
+                htmlTag.className += ' td-md-is-android';
+            }
+
+            if ( -1 !== navigator.userAgent.indexOf('Mac OS X')  ) {
+                htmlTag.className += ' td-md-is-os-x';
+            }
+
+            if ( /chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) ) {
+               htmlTag.className += ' td-md-is-chrome';
+            }
+
+            if ( -1 !== navigator.userAgent.indexOf('Firefox') ) {
+                htmlTag.className += ' td-md-is-firefox';
+            }
+
+            if ( -1 !== navigator.userAgent.indexOf('Safari') && -1 === navigator.userAgent.indexOf('Chrome') ) {
+                htmlTag.className += ' td-md-is-safari';
+            }
+
+        })();
+
+
+
+
+        var tdLocalCache = {};
+
+        ( function () {
+            "use strict";
+
+            tdLocalCache = {
+                data: {},
+                remove: function (resource_id) {
+                    delete tdLocalCache.data[resource_id];
+                },
+                exist: function (resource_id) {
+                    return tdLocalCache.data.hasOwnProperty(resource_id) && tdLocalCache.data[resource_id] !== null;
+                },
+                get: function (resource_id) {
+                    return tdLocalCache.data[resource_id];
+                },
+                set: function (resource_id, cachedData) {
+                    tdLocalCache.remove(resource_id);
+                    tdLocalCache.data[resource_id] = cachedData;
+                }
+            };
+        })();
+
+    
+    
+var td_viewport_interval_list=[{"limitBottom":767,"sidebarWidth":228},{"limitBottom":1018,"sidebarWidth":300},{"limitBottom":1140,"sidebarWidth":324}];
+var td_animation_stack_effect="type0";
+var tds_animation_stack=true;
+var td_animation_stack_specific_selectors=".entry-thumb, img";
+var td_animation_stack_general_selectors=".td-animation-stack img, .post img";
+var td_ajax_url="https:\/\/www.unixmen.com\/wp-admin\/admin-ajax.php?td_theme_name=Newspaper&v=6.7";
+var td_get_template_directory_uri="https:\/\/www.unixmen.com\/wp-content\/themes\/Newspaper";
+var tds_snap_menu="snap";
+var tds_logo_on_sticky="show_header_logo";
+var tds_header_style="3";
+var td_please_wait="Please wait...";
+var td_email_user_pass_incorrect="User or password incorrect!";
+var td_email_user_incorrect="Email or username incorrect!";
+var td_email_incorrect="Email incorrect!";
+var tds_more_articles_on_post_enable="";
+var tds_more_articles_on_post_time_to_wait="";
+var tds_more_articles_on_post_pages_distance_from_top=0;
+var tds_theme_color_site_wide="#328ec3";
+var tds_smart_sidebar="enabled";
+var tdThemeName="Newspaper";
+var td_magnific_popup_translation_tPrev="Previous (Left arrow key)";
+var td_magnific_popup_translation_tNext="Next (Right arrow key)";
+var td_magnific_popup_translation_tCounter="%curr% of %total%";
+var td_magnific_popup_translation_ajax_tError="The content from %url% could not be loaded.";
+var td_magnific_popup_translation_image_tError="The image #%curr% could not be loaded.";
+var td_ad_background_click_link="";
+var td_ad_background_click_target="";
+</SCRIPT>
+ <!-- Header style compiled by theme --> 
+<STYLE>
+    
+.td-header-wrap .black-menu .sf-menu > .current-menu-item > a,
+    .td-header-wrap .black-menu .sf-menu > .current-menu-ancestor > a,
+    .td-header-wrap .black-menu .sf-menu > .current-category-ancestor > a,
+    .td-header-wrap .black-menu .sf-menu > li > a:hover,
+    .td-header-wrap .black-menu .sf-menu > .sfHover > a,
+    .td-header-style-12 .td-header-menu-wrap-full,
+    .sf-menu > .current-menu-item > a:after,
+    .sf-menu > .current-menu-ancestor > a:after,
+    .sf-menu > .current-category-ancestor > a:after,
+    .sf-menu > li:hover > a:after,
+    .sf-menu > .sfHover > a:after,
+    .sf-menu ul .td-menu-item > a:hover,
+    .sf-menu ul .sfHover > a,
+    .sf-menu ul .current-menu-ancestor > a,
+    .sf-menu ul .current-category-ancestor > a,
+    .sf-menu ul .current-menu-item > a,
+    .td-header-style-12 .td-affix,
+    .header-search-wrap .td-drop-down-search:after,
+    .header-search-wrap .td-drop-down-search .btn:hover,
+    input[type=submit]:hover,
+    .td-read-more a,
+    .td-post-category:hover,
+    .td-grid-style-1.td-hover-1 .td-big-grid-post:hover .td-post-category,
+    .td-grid-style-5.td-hover-1 .td-big-grid-post:hover .td-post-category,
+    .td_top_authors .td-active .td-author-post-count,
+    .td_top_authors .td-active .td-author-comments-count,
+    .td_top_authors .td_mod_wrap:hover .td-author-post-count,
+    .td_top_authors .td_mod_wrap:hover .td-author-comments-count,
+    .td-404-sub-sub-title a:hover,
+    .td-search-form-widget .wpb_button:hover,
+    .td-rating-bar-wrap div,
+    .td_category_template_3 .td-current-sub-category,
+    .td-login-wrap .btn,
+    .td_display_err,
+    .td_display_msg_ok,
+    .dropcap,
+    .td_wrapper_video_playlist .td_video_controls_playlist_wrapper,
+    .wpb_default,
+    .wpb_default:hover,
+    .td-left-smart-list:hover,
+    .td-right-smart-list:hover,
+    .woocommerce-checkout .woocommerce input.button:hover,
+    .woocommerce-page .woocommerce a.button:hover,
+    .woocommerce-account div.woocommerce .button:hover,
+    #bbpress-forums button:hover,
+    .bbp_widget_login .button:hover,
+    .td-footer-wrapper .td-post-category,
+    .td-footer-wrapper .widget_product_search input[type="submit"]:hover,
+    .woocommerce .product a.button:hover,
+    .woocommerce .product #respond input#submit:hover,
+    .woocommerce .checkout input#place_order:hover,
+    .woocommerce .woocommerce.widget .button:hover,
+    .single-product .product .summary .cart .button:hover,
+    .woocommerce-cart .woocommerce table.cart .button:hover,
+    .woocommerce-cart .woocommerce .shipping-calculator-form .button:hover,
+    .td-next-prev-wrap a:hover,
+    .td-load-more-wrap a:hover,
+    .td-post-small-box a:hover,
+    .page-nav .current,
+    .page-nav:first-child > div,
+    .td_category_template_8 .td-category-header .td-category a.td-current-sub-category,
+    .td_category_template_4 .td-category-siblings .td-category a:hover,
+    #bbpress-forums .bbp-pagination .current,
+    #bbpress-forums #bbp-single-user-details #bbp-user-navigation li.current a,
+    .td-theme-slider:hover .slide-meta-cat a,
+    a.vc_btn-black:hover,
+    .td-trending-now-wrapper:hover .td-trending-now-title,
+    .td-scroll-up-visible,
+    .td-mobile-close a,
+    .td-smart-list-button:hover,
+    .td-weather-information:before,
+    .td-weather-week:before {
+        background-color: #328ec3;
+    }
+
+    .woocommerce .woocommerce-message .button:hover,
+    .woocommerce .woocommerce-error .button:hover,
+    .woocommerce .woocommerce-info .button:hover {
+        background-color: #328ec3 !important;
+    }
+
+    .woocommerce .product .onsale,
+    .woocommerce.widget .ui-slider .ui-slider-handle {
+        background: none #328ec3;
+    }
+
+    .woocommerce.widget.widget_layered_nav_filters ul li a {
+        background: none repeat scroll 0 0 #328ec3 !important;
+    }
+
+    a,
+    cite a:hover,
+    .td_mega_menu_sub_cats .cur-sub-cat,
+    .td-mega-span h3 a:hover,
+    .td_mod_mega_menu:hover .entry-title a,
+    .header-search-wrap .result-msg a:hover,
+    .top-header-menu li a:hover,
+    .top-header-menu .current-menu-item > a,
+    .top-header-menu .current-menu-ancestor > a,
+    .top-header-menu .current-category-ancestor > a,
+    .td-social-icon-wrap > a:hover,
+    .td-header-sp-top-widget .td-social-icon-wrap a:hover,
+    .td-page-content blockquote p,
+    .td-post-content blockquote p,
+    .mce-content-body blockquote p,
+    .comment-content blockquote p,
+    .wpb_text_column blockquote p,
+    .td_block_text_with_title blockquote p,
+    .td_module_wrap:hover .entry-title a,
+    .td-subcat-filter .td-subcat-list a:hover,
+    .td-subcat-filter .td-subcat-dropdown a:hover,
+    .td_quote_on_blocks,
+    .dropcap2,
+    .dropcap3,
+    .td_top_authors .td-active .td-authors-name a,
+    .td_top_authors .td_mod_wrap:hover .td-authors-name a,
+    .td-post-next-prev-content a:hover,
+    .author-box-wrap .td-author-social a:hover,
+    .td-author-name a:hover,
+    .td-author-url a:hover,
+    .td_mod_related_posts:hover h3 > a,
+    .td-post-template-11 .td-related-title .td-related-left:hover,
+    .td-post-template-11 .td-related-title .td-related-right:hover,
+    .td-post-template-11 .td-related-title .td-cur-simple-item,
+    .td-post-template-11 .td_block_related_posts .td-next-prev-wrap a:hover,
+    .comment-reply-link:hover,
+    .logged-in-as a:hover,
+    #cancel-comment-reply-link:hover,
+    .td-search-query,
+    .td-category-header .td-pulldown-category-filter-link:hover,
+    .td-category-siblings .td-subcat-dropdown a:hover,
+    .td-category-siblings .td-subcat-dropdown a.td-current-sub-category,
+    .td-login-wrap .td-login-info-text a:hover,
+    .widget a:hover,
+    .widget_calendar tfoot a:hover,
+    .woocommerce a.added_to_cart:hover,
+    #bbpress-forums li.bbp-header .bbp-reply-content span a:hover,
+    #bbpress-forums .bbp-forum-freshness a:hover,
+    #bbpress-forums .bbp-topic-freshness a:hover,
+    #bbpress-forums .bbp-forums-list li a:hover,
+    #bbpress-forums .bbp-forum-title:hover,
+    #bbpress-forums .bbp-topic-permalink:hover,
+    #bbpress-forums .bbp-topic-started-by a:hover,
+    #bbpress-forums .bbp-topic-started-in a:hover,
+    #bbpress-forums .bbp-body .super-sticky li.bbp-topic-title .bbp-topic-permalink,
+    #bbpress-forums .bbp-body .sticky li.bbp-topic-title .bbp-topic-permalink,
+    .widget_display_replies .bbp-author-name,
+    .widget_display_topics .bbp-author-name,
+    .footer-email-wrap a,
+    .td-subfooter-menu li a:hover,
+    .footer-social-wrap a:hover,
+    a.vc_btn-black:hover,
+    .td-mobile-content li a:hover,
+    .td-mobile-content .sfHover > a,
+    .td-mobile-content .current-menu-item > a,
+    .td-mobile-content .current-menu-ancestor > a,
+    .td-mobile-content .current-category-ancestor > a,
+    .td-smart-list-dropdown-wrap .td-smart-list-button:hover {
+        color: #328ec3;
+    }
+
+    .td_login_tab_focus,
+    a.vc_btn-black.vc_btn_square_outlined:hover,
+    a.vc_btn-black.vc_btn_outlined:hover,
+    .td-mega-menu-page .wpb_content_element ul li a:hover {
+        color: #328ec3 !important;
+    }
+
+    .td-next-prev-wrap a:hover,
+    .td-load-more-wrap a:hover,
+    .td-post-small-box a:hover,
+    .page-nav .current,
+    .page-nav:first-child > div,
+    .td_category_template_8 .td-category-header .td-category a.td-current-sub-category,
+    .td_category_template_4 .td-category-siblings .td-category a:hover,
+    #bbpress-forums .bbp-pagination .current,
+    .td-login-panel-title,
+    .post .td_quote_box,
+    .page .td_quote_box,
+    a.vc_btn-black:hover {
+        border-color: #328ec3;
+    }
+
+    .td_wrapper_video_playlist .td_video_currently_playing:after {
+        border-color: #328ec3 !important;
+    }
+
+    .header-search-wrap .td-drop-down-search:before {
+        border-color: transparent transparent #328ec3 transparent;
+    }
+
+    .block-title > span,
+    .block-title > a,
+    .block-title > label,
+    .widgettitle,
+    .widgettitle:after,
+    .td-trending-now-title,
+    .td-trending-now-wrapper:hover .td-trending-now-title,
+    .wpb_tabs li.ui-tabs-active a,
+    .wpb_tabs li:hover a,
+    .vc_tta-container .vc_tta-color-grey.vc_tta-tabs-position-top.vc_tta-style-classic .vc_tta-tabs-container .vc_tta-tab.vc_active > a,
+    .vc_tta-container .vc_tta-color-grey.vc_tta-tabs-position-top.vc_tta-style-classic .vc_tta-tabs-container .vc_tta-tab:hover > a,
+    .td-related-title .td-cur-simple-item,
+    .woocommerce .product .products h2,
+    .td-subcat-filter .td-subcat-dropdown:hover .td-subcat-more {
+    	background-color: #328ec3;
+    }
+
+    .woocommerce div.product .woocommerce-tabs ul.tabs li.active {
+    	background-color: #328ec3 !important;
+    }
+
+    .block-title,
+    .td-related-title,
+    .wpb_tabs .wpb_tabs_nav,
+    .vc_tta-container .vc_tta-color-grey.vc_tta-tabs-position-top.vc_tta-style-classic .vc_tta-tabs-container,
+    .woocommerce div.product .woocommerce-tabs ul.tabs:before {
+        border-color: #328ec3;
+    }
+    .td_block_wrap .td-subcat-item .td-cur-simple-item {
+	    color: #328ec3;
+	}
+
+
+    
+    .td-grid-style-4 .entry-title
+    {
+        background-color: rgba(50, 142, 195, 0.7);
+    }
+
+    
+    .block-title > span,
+    .block-title > a,
+    .block-title > label,
+    .widgettitle,
+    .widgettitle:after,
+    .td-trending-now-title,
+    .td-trending-now-wrapper:hover .td-trending-now-title,
+    .wpb_tabs li.ui-tabs-active a,
+    .wpb_tabs li:hover a,
+    .vc_tta-container .vc_tta-color-grey.vc_tta-tabs-position-top.vc_tta-style-classic .vc_tta-tabs-container .vc_tta-tab.vc_active > a,
+    .vc_tta-container .vc_tta-color-grey.vc_tta-tabs-position-top.vc_tta-style-classic .vc_tta-tabs-container .vc_tta-tab:hover > a,
+    .td-related-title .td-cur-simple-item,
+    .woocommerce .product .products h2,
+    .td-subcat-filter .td-subcat-dropdown:hover .td-subcat-more,
+    .td-weather-information:before,
+    .td-weather-week:before {
+        background-color: #222222;
+    }
+
+    .woocommerce div.product .woocommerce-tabs ul.tabs li.active {
+    	background-color: #222222 !important;
+    }
+
+    .block-title,
+    .td-related-title,
+    .wpb_tabs .wpb_tabs_nav,
+    .vc_tta-container .vc_tta-color-grey.vc_tta-tabs-position-top.vc_tta-style-classic .vc_tta-tabs-container,
+    .woocommerce div.product .woocommerce-tabs ul.tabs:before {
+        border-color: #222222;
+    }
+
+    
+    .td-header-wrap .td-header-top-menu-full,
+    .td-header-wrap .top-header-menu .sub-menu {
+        background-color: #328ec3;
+    }
+    .td-header-style-8 .td-header-top-menu-full {
+        background-color: transparent;
+    }
+    .td-header-style-8 .td-header-top-menu-full .td-header-top-menu {
+        background-color: #328ec3;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .td-header-wrap .td-header-top-menu-full .td-header-top-menu,
+    .td-header-wrap .td-header-top-menu-full {
+        border-bottom: none;
+    }
+
+
+    
+    .td-header-top-menu,
+    .td-header-top-menu a,
+    .td-header-wrap .td-header-top-menu-full .td-header-top-menu,
+    .td-header-wrap .td-header-top-menu-full a,
+    .td-header-style-8 .td-header-top-menu,
+    .td-header-style-8 .td-header-top-menu a {
+        color: #ffffff;
+    }
+
+    
+    .top-header-menu .current-menu-item > a,
+    .top-header-menu .current-menu-ancestor > a,
+    .top-header-menu .current-category-ancestor > a,
+    .top-header-menu li a:hover {
+        color: #f2f2f2;
+    }
+
+    
+    .td-header-wrap .td-header-sp-top-widget .td-icon-font {
+        color: #ffffff;
+    }
+
+    
+    .td-header-wrap .td-header-sp-top-widget i.td-icon-font:hover {
+        color: #f2f2f2;
+    }
+
+
+    
+    .sf-menu ul .td-menu-item > a:hover,
+    .sf-menu ul .sfHover > a,
+    .sf-menu ul .current-menu-ancestor > a,
+    .sf-menu ul .current-category-ancestor > a,
+    .sf-menu ul .current-menu-item > a,
+    .sf-menu > .current-menu-item > a:after,
+    .sf-menu > .current-menu-ancestor > a:after,
+    .sf-menu > .current-category-ancestor > a:after,
+    .sf-menu > li:hover > a:after,
+    .sf-menu > .sfHover > a:after,
+    .td_block_mega_menu .td-next-prev-wrap a:hover,
+    .td-mega-span .td-post-category:hover,
+    .td-header-wrap .black-menu .sf-menu > li > a:hover,
+    .td-header-wrap .black-menu .sf-menu > .current-menu-ancestor > a,
+    .td-header-wrap .black-menu .sf-menu > .sfHover > a,
+    .header-search-wrap .td-drop-down-search:after,
+    .header-search-wrap .td-drop-down-search .btn:hover,
+    .td-header-wrap .black-menu .sf-menu > .current-menu-item > a,
+    .td-header-wrap .black-menu .sf-menu > .current-menu-ancestor > a,
+    .td-header-wrap .black-menu .sf-menu > .current-category-ancestor > a,
+    .td-mobile-close a {
+        background-color: #328ec3;
+    }
+
+
+    .td_block_mega_menu .td-next-prev-wrap a:hover {
+        border-color: #328ec3;
+    }
+
+    .header-search-wrap .td-drop-down-search:before {
+        border-color: transparent transparent #328ec3 transparent;
+    }
+
+    .td_mega_menu_sub_cats .cur-sub-cat,
+    .td_mod_mega_menu:hover .entry-title a,
+    .td-mobile-content li a:hover,
+    .td-mobile-content .current-menu-item > a,
+    .td-mobile-content .current-menu-ancestor > a,
+    .td-mobile-content .current-category-ancestor > a {
+        color: #328ec3;
+    }
+
+
+    
+    .td-sub-footer-container {
+        background-color: #000000;
+    }
+
+    
+    .post .td-post-header .entry-title {
+        color: #1e73be;
+    }
+    .td_module_15 .entry-title a {
+        color: #1e73be;
+    }
+
+    
+    .td-post-content h1,
+    .td-post-content h2,
+    .td-post-content h3,
+    .td-post-content h4,
+    .td-post-content h5,
+    .td-post-content h6 {
+    	color: #1e73be;
+    }
+
+    
+    .top-header-menu > li > a,
+    .td-header-sp-top-menu .td_data_time {
+        font-size:12px;
+	
+    }
+    
+    ul.sf-menu > .td-menu-item > a {
+        font-size:12px;
+	
+    }
+    
+	.post .td-post-header .entry-title {
+		font-family:Cabin;
+	
+	}
+</STYLE>
+ 
+<SCRIPT>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-6194676-1', 'auto');
+  ga('send', 'pageview');
+
+</SCRIPT>
+<NOSCRIPT>&lt;style type="text/css"&gt; .wpb_animate_when_almost_visible { 
+opacity: 1; }&lt;/style&gt;</NOSCRIPT></HEAD> 
+<BODY class="single single-post postid-11345 single-format-standard setup-directory-serverldap-in-centos-6-4-rhel-6-4 wpb-js-composer js-comp-ver-4.11 vc_responsive td-animation-stack-type0 td-full-layout" 
+itemtype="https://schema.org/WebPage" itemscope="itemscope">
+<DIV class="td-scroll-up"><I class="td-icon-menu-up"></I></DIV>
+<DIV id="td-outer-wrap">
+<SCRIPT>
+function reloadMe() {
+	window.location.reload();
+}
+function getInterval(){
+	var lowerBound =600;
+	var upperBound =1050;
+	
+	var randNum = Math.floor((upperBound-lowerBound+1)*Math.random()+lowerBound) * 1000;
+	return randNum;
+}
+var interval = getInterval();
+var srcInterval = setInterval("reloadMe()",interval);
+</SCRIPT>
+     
+<DIV class="td-transition-content-and-menu td-mobile-nav-wrap">
+<DIV id="td-mobile-nav"><!-- mobile menu close -->     
+<DIV class="td-mobile-close"><A href="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/#">CLOSE</A>
+<DIV class="td-nav-triangle"></DIV></DIV>
+<DIV class="td-mobile-content">
+<DIV class="menu-main-menu-container">
+<UL id="menu-main-menu">
+  <LI class="menu-item menu-item-type-post_type menu-item-object-page menu-item-first menu-item-47234" 
+  id="menu-item-47234"><A href="https://www.unixmen.com/">Home</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-47224" 
+  id="menu-item-47224"><A href="https://www.unixmen.com/category/linux-distributions/">Linux 
+  distributions</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-47226" 
+  id="menu-item-47226"><A href="https://www.unixmen.com/category/linux-tutorials/">Linux 
+  tutorials</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-47227" 
+  id="menu-item-47227"><A 
+  href="https://www.unixmen.com/category/news/">News</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-47230" 
+  id="menu-item-47230"><A href="https://www.unixmen.com/category/frequently-asked-questions/">Frequently 
+  Asked Questions</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-47231" 
+  id="menu-item-47231"><A 
+  href="https://www.unixmen.com/category/opensource/">Opensource</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-47232" 
+  id="menu-item-47232"><A 
+  href="https://www.unixmen.com/category/unix/">Unix</A></LI>
+  <LI class="menu-item menu-item-type-custom menu-item-object-custom menu-item-47625" 
+  id="menu-item-47625"><A 
+href="http://ask.unixmen.com/">Ask/unixmen</A></LI></UL></DIV></DIV></DIV></DIV>
+<DIV class="td-transition-content-and-menu td-content-wrap"><!--
+Header style 3
+--> 
+<DIV class="td-header-wrap td-header-style-3">
+<DIV class="td-header-top-menu-full">
+<DIV class="td-container td-header-row td-header-top-menu">
+<DIV class="top-bar-style-1">
+<DIV class="td-header-sp-top-menu">
+<DIV class="td_data_time">Monday, November 28, 2016</DIV>
+<DIV class="menu-top-container">
+<UL class="top-header-menu" id="menu-top-menu">
+  <LI class="menu-item menu-item-type-post_type menu-item-object-page menu-item-first td-menu-item td-normal-menu menu-item-47221" 
+  id="menu-item-47221"><A href="https://www.unixmen.com/about-us/">About 
+  Us</A></LI>
+  <LI class="menu-item menu-item-type-post_type menu-item-object-page td-menu-item td-normal-menu menu-item-47223" 
+  id="menu-item-47223"><A 
+  href="https://www.unixmen.com/advertising/">Advertising on Unixmen</A></LI>
+  <LI class="menu-item menu-item-type-post_type menu-item-object-page td-menu-item td-normal-menu menu-item-47219" 
+  id="menu-item-47219"><A href="https://www.unixmen.com/work-for-us/">Become a 
+  Contributor</A></LI>
+  <LI class="menu-item menu-item-type-post_type menu-item-object-page td-menu-item td-normal-menu menu-item-48133" 
+  id="menu-item-48133"><A href="https://www.unixmen.com/unixmen-collaborated-with-unixstickers/">Unixmen 
+  collaborated with Unixstickers</A></LI>
+  <LI class="menu-item menu-item-type-post_type menu-item-object-page td-menu-item td-normal-menu menu-item-47222" 
+  id="menu-item-47222"><A href="https://www.unixmen.com/contact-us/">Contact 
+  Us</A></LI></UL></DIV></DIV></DIV></DIV></DIV>
+<DIV class="td-banner-wrap-full">
+<DIV class="td-container td-header-row td-header-header">
+<DIV class="td-header-sp-logo"><A href="https://www.unixmen.com/"><IMG title="Unixmen" 
+class="td-retina-data" alt="Unixmen" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/unixmen-logo.png" 
+data-retina="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2016/02/unixmen-logo-retina-300x177.png"> 
+    </A>             </DIV>
+<DIV class="td-header-sp-recs">
+<DIV class="td-header-rec-wrap">
+<DIV class="td-a-rec td-a-rec-id-header ">
+<SCRIPT type="text/javascript">
+    var adfly_id = 14654573;
+    var adfly_advert = 'int';
+    var popunder = true;
+    var exclude_domains = ['example.com', 'unixmen.com'];
+</SCRIPT>
+ 
+<SCRIPT src="https://cdn.adf.ly/js/link-converter.js"></SCRIPT>
+</DIV></DIV></DIV></DIV></DIV>
+<DIV class="td-header-menu-wrap-full">
+<DIV class="td-header-menu-wrap">
+<DIV class="td-container td-header-row td-header-main-menu black-menu">
+<DIV id="td-header-menu">
+<DIV id="td-top-mobile-toggle"><A href="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/#"><I 
+class="td-icon-font td-icon-mobile"></I></A></DIV>
+<DIV class="td-main-menu-logo"><A class="td-mobile-logo td-sticky-header" href="https://www.unixmen.com/"><IMG 
+title="Unixmen" class="td-retina-data" alt="Unixmen" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/unixmen-logo-mobile.png" 
+data-retina="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2016/02/unixmen-logo-mobile-retina.png">
+		 </A><A class="td-header-logo td-sticky-header" href="https://www.unixmen.com/"><IMG 
+title="Unixmen" class="td-retina-data" alt="Unixmen" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/unixmen-logo.png" 
+data-retina="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2016/02/unixmen-logo-retina-300x177.png">
+		 </A>	     </DIV>
+<DIV class="menu-main-menu-container">
+<UL class="sf-menu" id="menu-main-menu-1">
+  <LI class="menu-item menu-item-type-post_type menu-item-object-page menu-item-first td-menu-item td-normal-menu menu-item-47234"><A 
+  href="https://www.unixmen.com/">Home</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent td-menu-item td-normal-menu menu-item-47224"><A 
+  href="https://www.unixmen.com/category/linux-distributions/">Linux 
+  distributions</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category td-menu-item td-normal-menu menu-item-47226"><A 
+  href="https://www.unixmen.com/category/linux-tutorials/">Linux 
+  tutorials</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category td-menu-item td-normal-menu menu-item-47227"><A 
+  href="https://www.unixmen.com/category/news/">News</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category td-menu-item td-normal-menu menu-item-47230"><A 
+  href="https://www.unixmen.com/category/frequently-asked-questions/">Frequently 
+  Asked Questions</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category td-menu-item td-normal-menu menu-item-47231"><A 
+  href="https://www.unixmen.com/category/opensource/">Opensource</A></LI>
+  <LI class="menu-item menu-item-type-taxonomy menu-item-object-category td-menu-item td-normal-menu menu-item-47232"><A 
+  href="https://www.unixmen.com/category/unix/">Unix</A></LI>
+  <LI class="menu-item menu-item-type-custom menu-item-object-custom td-menu-item td-normal-menu menu-item-47625"><A 
+  href="http://ask.unixmen.com/">Ask/unixmen</A></LI></UL></DIV></DIV>
+<DIV class="td-search-wrapper">
+<DIV id="td-top-search"><!-- Search -->         
+<DIV class="header-search-wrap">
+<DIV class="dropdown header-search"><A class="dropdown-toggle " id="td-header-search-button" 
+role="button" href="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/#" 
+data-toggle="dropdown"><I 
+class="td-icon-search"></I></A></DIV></DIV></DIV></DIV>
+<DIV class="header-search-wrap">
+<DIV class="dropdown header-search">
+<DIV class="td-drop-down-search" aria-labelledby="td-header-search-button">
+<FORM class="td-search-form" role="search" action="https://www.unixmen.com/" 
+method="get">
+<DIV 
+class="td-head-form-search-wrap"><INPUT name="s" id="td-header-search" type="text" autocomplete="off"><INPUT class="wpb_button wpb_btn-inverse btn" id="td-header-search-top" type="submit" value="Search">
+				 </DIV></FORM>
+<DIV id="td-aj-search"></DIV></DIV></DIV></DIV></DIV></DIV></DIV></DIV>
+<DIV class="td-main-content-wrap">
+<DIV class="td-container td-post-template-default ">
+<DIV class="td-crumb-container">
+<DIV class="entry-crumbs"><SPAN itemtype="http://data-vocabulary.org/Breadcrumb" 
+itemscope=""><A title="" class="entry-crumb" href="https://www.unixmen.com/" 
+itemprop="url"><SPAN itemprop="title">Home</SPAN></A></SPAN> <I class="td-icon-right td-bread-sep"></I> 
+<SPAN itemtype="http://data-vocabulary.org/Breadcrumb" itemscope=""><A title="View all posts in Linux distributions" 
+class="entry-crumb" href="https://www.unixmen.com/category/linux-distributions/" 
+itemprop="url"><SPAN itemprop="title">Linux distributions</SPAN></A></SPAN> <I 
+class="td-icon-right td-bread-sep td-bred-no-url-last"></I> <SPAN class="td-bred-no-url-last" 
+itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
+<META content="Setup LDAP Server in CentOS, RHEL, Scientific linux 6.5/6.4/6.3" 
+itemprop="title">
+<META content="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/" 
+itemprop="url">Setup LDAP Server in CentOS, RHEL, Scientific linux 
+6.5/6.4/6.3</SPAN></DIV></DIV>
+<DIV class="td-pb-row">
+<DIV class="td-pb-span8 td-main-content" role="main">
+<DIV class="td-ss-main-content"><ARTICLE class="post-11345 post type-post status-publish format-standard has-post-thumbnail hentry category-linux-distributions tag-389-ds tag-directory-server tag-ldap tag-openldap-centos tag-openldap-centos7" 
+id="post-11345" itemtype="https://schema.org/Article" itemscope="">
+<DIV class="td-post-header"><HEADER class="td-post-title">
+<H1 class="entry-title">Setup LDAP Server in CentOS, RHEL, Scientific linux 
+6.5/6.4/6.3</H1>
+<DIV class="td-module-meta-info">
+<DIV class="td-post-author-name">By <A 
+href="https://www.unixmen.com/author/sk/">SK</A></DIV></DIV></HEADER></DIV>
+<DIV class="td-post-sharing td-post-sharing-top td-with-like">
+<DIV class="td-default-sharing"><A class="td-social-sharing-buttons td-social-facebook" 
+onclick="window.open(this.href, 'mywin','left=50,top=50,width=600,height=350,toolbar=0'); return false;" 
+href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fwww.unixmen.com%2Fsetup-directory-serverldap-in-centos-6-4-rhel-6-4%2F"><I 
+class="td-icon-facebook"></I>
+<DIV class="td-social-but-text">Share on Facebook</DIV></A>		             <A 
+class="td-social-sharing-buttons td-social-twitter" href="https://twitter.com/intent/tweet?text=Setup+LDAP+Server+in+CentOS%2C+RHEL%2C+Scientific+linux+6.5%2F6.4%2F6.3&amp;url=https%3A%2F%2Fwww.unixmen.com%2Fsetup-directory-serverldap-in-centos-6-4-rhel-6-4%2F&amp;via=unixmen"><I 
+class="td-icon-twitter"></I>
+<DIV class="td-social-but-text">Tweet on Twitter</DIV></A>		             <A 
+class="td-social-sharing-buttons td-social-google" onclick="window.open(this.href, 'mywin','left=50,top=50,width=600,height=350,toolbar=0'); return false;" 
+href="http://plus.google.com/share?url=https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/"><I 
+class="td-icon-googleplus"></I></A>		             <A class="td-social-sharing-buttons td-social-pinterest" 
+onclick="window.open(this.href, 'mywin','left=50,top=50,width=600,height=350,toolbar=0'); return false;" 
+href="http://pinterest.com/pin/create/button/?url=https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/&amp;media=https://www.unixmen.com/wp-content/uploads/2013/03/389ds.jpg&amp;description=In this how-to i am gonna to explain about setup LDAP server on CentOS 6.x."><I 
+class="td-icon-pinterest"></I></A>		             <A class="td-social-sharing-buttons td-social-whatsapp" 
+href="whatsapp://send/?text=Setup+LDAP+Server+in+CentOS%2C+RHEL%2C+Scientific+linux+6.5%2F6.4%2F6.3 - https%3A%2F%2Fwww.unixmen.com%2Fsetup-directory-serverldap-in-centos-6-4-rhel-6-4%2F"><I 
+class="td-icon-whatsapp"></I></A>	             </DIV>
+<DIV class="td-classic-sharing">
+<UL>
+  <LI class="td-classic-facebook"><IFRAME src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/like.htm" 
+  frameborder="0" style="border: currentColor; border-image: none; width: 105px; height: 21px; overflow: hidden; background-color: transparent;"></IFRAME></LI>
+  <LI class="td-classic-twitter"><A class="twitter-share-button" href="https://twitter.com/share" 
+  data-lang="en" data-via="" data-text="Setup LDAP Server in CentOS, RHEL, Scientific linux 6.5/6.4/6.3" 
+  data-url="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/">tweet</A> 
+
+<SCRIPT>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</SCRIPT>
+  </LI></UL></DIV></DIV>
+<DIV class="td-post-content">
+<DIV class="td-post-featured-image"><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/389ds.jpg" 
+data-caption=""><IMG width="100" height="100" title="389ds" class="entry-thumb td-modal-image" 
+alt="" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/389ds.jpg"></A></DIV>
+<P style="text-align: justify;">In this tutorial we are going to setup LDAP 
+server using <STRONG>389 Directory Server</STRONG>. The 389 Directory Server is 
+an enterprise class open source LDAP server developed by Redhat Community.</P>
+<P style="text-align: justify;"><STRONG>Features</STRONG></P>
+<P>– Multi-Master Replication, to provide fault tolerance and high write 
+performance.<BR>– Scalability: thousands of operations per second, tens of 
+thousands of concurrent users, tens of millions of entries, hundreds of 
+gigabytes of data.<BR>– Active Directory user and group synchronization.<BR>– 
+Secure authentication and transport (SSLv3, TLSv1, and SASL).<BR>– Support for 
+LDAPv3.<BR>– On-line, zero downtime, LDAP-based update of schema, configuration, 
+management and in-tree Access Control Information (ACIs).<BR>– Graphical console 
+for all facets of user, group, and server management.</P>
+<P>For the detailed explanation of key features please <A href="http://directory.fedoraproject.org/wiki/Features" 
+target="_blank">refer here</A>.</P>
+<P style="text-align: justify;"><STRONG>Prerequisites</STRONG></P>
+<P>– The LDAP server should contain the valid FQDN. Add the ldap server details 
+to your DNS server.<BR>– Adjust the firewall to allow ldap ports.<BR>– Enable 
+EPEL and REMI repositories to avoid any dependencies problems.</P>
+<DIV class="insert-post-ads" style="margin: 0px 0px 20px; width: 100%; clear: both; float: left;">
+<SCRIPT src="//ap.lijit.com/www/delivery/fpi.js?z=374226&amp;u=theeighth&amp;width=728&amp;height=90" type="text/javascript"></SCRIPT>
+ 
+<DIV id="crt-500314" style="width: 728px; height: 90px;"></DIV>
+<SCRIPT type="text/javascript">
+Criteo.DisplayAcceptableAdIfAdblocked({
+    "zoneid": 500314,
+    "containerid": "crt-500314"});
+</SCRIPT>
+</DIV>
+<P>Follow the below links to Add EPEL and REMI Repository.</P>
+<P style="padding-left: 30px;"><STRONG>– <A href="http://www.unixmen.com/install-epel-repository-rhel-centos-scientific-linux-6/" 
+target="_blank">Install EPEL Repository on CentOS / RHEL / Scientific Linx 
+6.x</A></STRONG></P>
+<P style="padding-left: 30px;"><STRONG>– <A href="http://www.unixmen.com/install-remi-repository-rhel-centos-scientific-linux-6-x-5-x-fedora-20-19-18/" 
+target="_blank">Install REMI Repository on CentOS / RHEL / Scientific Linux 
+6.x</A></STRONG></P>
+<P style="text-align: justify;">In this how-to my LDAP server details are given 
+below.</P>
+<PRE>Operating System : CentOS 6.5 server
+Host name        : server.unixmen.local
+IP Address       : 192.168.1.101/24.</PRE>
+<P style="text-align: justify;">Set your server fully qualified domain in 
+<STRONG>/etc/hosts</STRONG> file.</P>
+<P style="text-align: justify;">Edit file <STRONG>/etc/hosts/</STRONG>,</P>
+<PRE style="text-align: justify;"># vi /etc/hosts</PRE>
+<P style="text-align: justify;">Add your hostname as shown below.</P>
+<PRE style="text-align: justify;">[...]
+192.168.1.101&nbsp;&nbsp; server.unixmen.local&nbsp;&nbsp;&nbsp; server</PRE>
+<P style="text-align: justify;">Change the values as per your requirement. This 
+tutorial will applicable for all RHEL/CentOS/SL 6.x series.</P>
+<P style="text-align: justify;"><STRONG>Firewall Configuration</STRONG></P>
+<P style="text-align: justify;">Add the following ldap ports to your iptables. 
+To do that, edit file <STRONG>“/etc/sysconfig/iptables”</STRONG>,</P>
+<PRE># vi /etc/sysconfig/iptables</PRE>
+<P style="text-align: justify;">Add the following lines.</P>
+<PRE>[...]
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 389 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 636 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 9830 -j ACCEPT
+[...]</PRE>
+<P style="text-align: justify;">Restart firewall.</P>
+<PRE># service iptables restart</PRE>
+<P style="text-align: justify;"><STRONG>Performance and Security tuning for LDAP 
+server</STRONG></P>
+<P style="text-align: justify;">Before installing LDAP server, we have to adjust 
+some files for performance and security.</P>
+<P style="text-align: justify;">Edit file 
+<STRONG>“/etc/sysctl.conf”</STRONG>,</P>
+<PRE># vi /etc/sysctl.conf</PRE>
+<P style="text-align: justify;">Add the following lines at the end.</P>
+<PRE>[...]
+net.ipv4.tcp_keepalive_time = 300
+net.ipv4.ip_local_port_range = 1024 65000
+fs.file-max = 64000</PRE>
+<P style="text-align: justify;">Edit file 
+<STRONG>“/etc/security/limits.conf”</STRONG>,</P>
+<PRE># vi /etc/security/limits.conf</PRE>
+<P style="text-align: justify;">Add the following lines at the bottom.</P>
+<PRE>[...]
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; soft&nbsp;&nbsp;&nbsp;&nbsp; nofile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8192&nbsp; &nbsp;
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hard&nbsp;&nbsp;&nbsp;&nbsp; nofile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8192</PRE>
+<P style="text-align: justify;">Edit file <STRONG>“/etc/profile”</STRONG>,</P>
+<PRE># vi /etc/profile</PRE>
+<P style="text-align: justify;">Add the line at the end.</P>
+<PRE>[...]
+ulimit -n 8192</PRE>
+<P style="text-align: justify;">Edit file 
+<STRONG>“/etc/pam.d/login”</STRONG>,</P>
+<PRE># vi /etc/pam.d/login</PRE>
+<P style="text-align: justify;">Add the line at the end.</P>
+<PRE>[...]
+session&nbsp;&nbsp;&nbsp; required&nbsp;&nbsp;&nbsp;&nbsp; /lib/security/pam_limits.so</PRE>
+<P style="text-align: justify;">Now Restart the server.</P>
+<P style="text-align: justify;"><STRONG>Install 389 Directory 
+Server</STRONG></P>
+<P style="text-align: justify;">Create a LDAP user account.</P>
+<PRE># useradd ldapadmin
+# passwd ldapadmin</PRE>
+<P style="text-align: justify;">Now install 389 directory server using 
+command:</P>
+<PRE># yum install -y 389-ds openldap-clients</PRE>
+<P style="text-align: justify;"><STRONG>Configure LDAP server</STRONG></P>
+<P>Now it’s time to configure LDAP server. It’s quite long way process. Run the 
+following command to configure 389 directory server.</P>
+<PRE># setup-ds-admin.pl</PRE>
+<P>You will be asked a couple of questions. Please read the instructions 
+carefully and answer them accordingly.</P>
+<P>If you made any mistake and want to go back to previous screen press 
+<STRONG>CTRL+B</STRONG> and <STRONG>Enter</STRONG>. To cancel the setup press 
+<STRONG>CTRL+C</STRONG>.</P>
+<PRE>==============================================================================
+This program will set up the 389 Directory and Administration Servers.
+
+It is recommended that you have "root" privilege to set up the software.
+Tips for using this program:
+&nbsp; - Press "Enter" to choose the default and go to the next screen
+&nbsp; - Type "Control-B" then "Enter" to go back to the previous screen
+&nbsp; - Type "Control-C" to cancel the setup program
+
+Would you like to continue with set up? [yes]:   <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN> 
+
+==============================================================================
+Your system has been scanned for potential problems, missing patches,
+etc.&nbsp; The following output is a report of the items found that need to
+be addressed before running this software in a production
+environment.
+
+389 Directory Server system tuning analysis version 23-FEBRUARY-2012.
+
+NOTICE : System is i686-unknown-linux2.6.32-431.el6.i686 (1 processor).
+
+WARNING: 622MB of physical memory is available on the system. 1024MB is recommended for best performance on large production system.
+
+WARNING&nbsp; : The warning messages above should be reviewed before proceeding.
+
+Would you like to continue? [no]: yes  <SPAN style="color: rgb(255, 0, 0);">## Type Yes and Press Enter ##</SPAN>
+
+==============================================================================
+Choose a setup type:
+&nbsp;&nbsp; 1. Express
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Allows you to quickly set up the servers using the most
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; common options and pre-defined defaults. Useful for quick
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; evaluation of the products.
+&nbsp;&nbsp; 2. Typical
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Allows you to specify common defaults and options.
+&nbsp;&nbsp; 3. Custom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Allows you to specify more advanced options. This is 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; recommended for experienced server administrators only.
+To accept the default shown in brackets, press the Enter key.
+
+Choose a setup type [2]:  <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+
+==============================================================================
+Enter the fully qualified domain name of the computer
+on which you're setting up server software. Using the form
+&lt;hostname&gt;.&lt;domainname&gt;
+Example: eros.example.com.
+
+To accept the default shown in brackets, press the Enter key.
+
+Warning: This step may take a few minutes if your DNS servers
+can not be reached or if DNS is not configured correctly.&nbsp; If
+you would rather not wait, hit Ctrl-C and run this program again
+with the following command line option to specify the hostname:
+
+&nbsp;&nbsp;&nbsp; General.FullMachineName=your.hostname.domain.name
+
+Computer name [server.unixmen.local]:     <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+
+==============================================================================
+he servers must run as a specific user in a specific group.
+It is strongly recommended that this user should have no privileges
+on the computer (i.e. a non-root user).&nbsp; The setup procedure
+will give this user/group some permissions in specific paths/files
+to perform server-specific operations.
+
+If you have not yet created a user and group for the servers,
+create this user and group using your native operating
+system utilities.
+
+System User [nobody]: ldapadmin  <SPAN style="color: rgb(255, 0, 0);">## Enter LDAP user name created above #</SPAN>
+System Group [nobody]: ldapadmin
+
+==============================================================================
+Server information is stored in the configuration directory server.
+This information is used by the console and administration server to
+configure and manage your servers.&nbsp; If you have already set up a
+configuration directory server, you should register any servers you
+set up or create with the configuration server.&nbsp; To do so, the
+following information about the configuration server is required: the
+fully qualified host name of the form
+&lt;hostname&gt;.&lt;domainname&gt;(e.g. hostname.example.com), the port number
+(default 389), the suffix, the DN and password of a user having
+permission to write the configuration information, usually the
+configuration directory administrator, and if you are using security
+(TLS/SSL).&nbsp; If you are using TLS/SSL, specify the TLS/SSL (LDAPS) port
+number (default 636) instead of the regular LDAP port number, and
+provide the CA certificate (in PEM/ASCII format).
+
+If you do not yet have a configuration directory server, enter 'No' to
+be prompted to set up one.
+Do you want to register this software with an existing
+configuration directory server? [no]:   <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+
+==============================================================================
+Please enter the administrator ID for the configuration directory
+server.&nbsp; This is the ID typically used to log in to the console.&nbsp; You
+will also be prompted for the password.
+Configuration directory server
+administrator ID [admin]:   <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+Password:    ## create password ##
+Password (confirm):    <SPAN style="color: rgb(255, 0, 0);">## re-type password ##</SPAN>
+
+==============================================================================
+The information stored in the configuration directory server can be
+separated into different Administration Domains.&nbsp; If you are managing
+multiple software releases at the same time, or managing information
+about multiple domains, you may use the Administration Domain to keep
+them separate.
+
+If you are not using administrative domains, press Enter to select the
+default.&nbsp; Otherwise, enter some descriptive, unique name for the
+administration domain, such as the name of the organization
+responsible for managing the domain.
+
+Administration Domain [unixmen.local]:   <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+
+==============================================================================
+The standard directory server network port number is 389.&nbsp; However, if
+you are not logged as the superuser, or port 389 is in use, the
+default value will be a random unused port number greater than 1024.
+If you want to use port 389, make sure that you are logged in as the
+superuser, that port 389 is not in use.
+Directory server network port [389]:   <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+
+==============================================================================
+Each instance of a directory server requires a unique identifier.
+This identifier is used to name the various
+instance specific files and directories in the file system,
+as well as for other uses as a server instance identifier.
+
+Directory server identifier [server]:  <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+
+==============================================================================
+The suffix is the root of your directory tree.&nbsp; The suffix must be a valid DN.
+It is recommended that you use the dc=domaincomponent suffix convention.
+For example, if your domain is example.com,
+you should use dc=example,dc=com for your suffix.
+Setup will create this initial suffix for you,
+but you may have more than one suffix.
+Use the directory server utilities to create additional suffixes.
+
+Suffix [dc=unixmen, dc=local]:   <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+
+=============================================================================
+
+Certain directory server operations require an administrative user.
+This user is referred to as the Directory Manager and typically has a
+bind Distinguished Name (DN) of cn=Directory Manager.
+You will also be prompted for the password for this user.&nbsp; The password must
+be at least 8 characters long, and contain no spaces.
+Press Control-B or type the word "back", then Enter to back up and start over.
+Directory Manager DN [cn=Directory Manager]:   <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+Password:               <SPAN style="color: rgb(255, 0, 0);">## Enter the password ##</SPAN>
+Password (confirm): 
+
+==============================================================================
+The Administration Server is separate from any of your web or application
+servers since it listens to a different port and access to it is
+restricted.
+
+Pick a port number between 1024 and 65535 to run your Administration
+Server on. You should NOT use a port number which you plan to
+run a web or application server on, rather, select a number which you
+will remember and which will not be used for anything else.
+Administration port [9830]:   <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+
+==============================================================================
+The interactive phase is complete.&nbsp; The script will now set up your
+servers.&nbsp; Enter No or go Back if you want to change something.
+
+Are you ready to set up your servers? [yes]:  <SPAN style="color: rgb(255, 0, 0);">## Press Enter ##</SPAN>
+Creating directory server . . .
+Your new DS instance 'server' was successfully created.
+Creating the configuration directory server . . .
+Beginning Admin Server creation . . .
+Creating Admin Server files and directories . . .
+Updating adm.conf . . .
+Updating admpw . . .
+Registering admin server with the configuration directory server . . .
+Updating adm.conf with information from configuration directory server . . .
+Updating the configuration for the httpd engine . . .
+Starting admin server . . .
+output: Starting dirsrv-admin: 
+output:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [&nbsp; OK&nbsp; ]
+The admin server was successfully started.
+Admin server was successfully created, configured, and started.
+Exiting . . .
+Log file is '/tmp/setupo1AlDy.log'</PRE>
+<P style="text-align: justify;">Make the LDAP server daemon to start 
+automatically on every reboot.</P>
+<PRE># chkconfig dirsrv on
+# chkconfig dirsrv-admin on</PRE>
+<P style="text-align: justify;"><STRONG>Test LDAP Server</STRONG></P>
+<P style="text-align: justify;">Now let us test our LDAP Server now for any 
+errors using following command.</P>
+<PRE># ldapsearch -x -b "dc=unixmen,dc=local"</PRE>
+<P style="text-align: justify;">Sample output:</P>
+<PRE># extended LDIF
+#
+# LDAPv3
+# base &lt;dc=unixmen,dc=local&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# unixmen.local
+dn: dc=unixmen,dc=local
+objectClass: top
+objectClass: domain
+dc: unixmen
+
+# Directory Administrators, unixmen.local
+dn: cn=Directory Administrators,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupofuniquenames
+cn: Directory Administrators
+uniqueMember: cn=Directory Manager
+
+# Groups, unixmen.local
+dn: ou=Groups,dc=unixmen,dc=local
+objectClass: top
+objectClass: organizationalunit
+ou: Groups
+
+# People, unixmen.local
+dn: ou=People,dc=unixmen,dc=local
+objectClass: top
+objectClass: organizationalunit
+ou: People
+
+# Special Users, unixmen.local
+dn: ou=Special Users,dc=unixmen,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Special Users
+description: Special Administrative Accounts
+
+# Accounting Managers, Groups, unixmen.local
+dn: cn=Accounting Managers,ou=Groups,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Accounting Managers
+ou: groups
+description: People who can manage accounting entries
+uniqueMember: cn=Directory Manager
+
+# HR Managers, Groups, unixmen.local
+dn: cn=HR Managers,ou=Groups,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: HR Managers
+ou: groups
+description: People who can manage HR entries
+uniqueMember: cn=Directory Manager
+
+# QA Managers, Groups, unixmen.local
+dn: cn=QA Managers,ou=Groups,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: QA Managers
+ou: groups
+description: People who can manage QA entries
+uniqueMember: cn=Directory Manager
+
+# PD Managers, Groups, unixmen.local
+dn: cn=PD Managers,ou=Groups,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: PD Managers
+ou: groups
+description: People who can manage engineer entries
+uniqueMember: cn=Directory Manager
+
+# search result
+search: 2
+<SPAN style="color: rgb(255, 0, 0);">result: 0 Success</SPAN>
+
+# numResponses: 10
+# numEntries: 9</PRE>
+<P style="text-align: justify;">The output will look something like above. If 
+you have got <STRONG>result</STRONG> as <STRONG>2</STRONG> shown in the&nbsp; 
+above output, you’re done. Now our LDAP server is ready to use.</P>
+<P style="text-align: justify;"><STRONG>Manage 389 ds with Admin Server 
+Console</STRONG></P>
+<P style="text-align: justify;">Please be mindful that if you want to manage 
+your 389 ds server graphically, your server should have installed with a GUI 
+environment. If you did a minimal installation, you can’t access the admin 
+server console.</P>
+<P style="text-align: justify;">As i have minimal server, i am going to install 
+XFCE desktop on my server.</P>
+<PRE style="text-align: justify;"># yum groupinstall Xfce</PRE>
+<P style="text-align: justify;">Reboot your server.</P>
+<PRE style="text-align: justify;"># reboot</PRE>
+<P style="text-align: justify;">Log in to server.</P>
+<P style="text-align: justify;">Now you can access the 389 ds admin console 
+either locally or remotely.</P>
+<P style="text-align: justify;">To access 389 ds admin console locally, type 
+<STRONG>389-console</STRONG>.</P>
+<P style="text-align: justify;">To access 389-ds admin console from your remote 
+system, enter the following command in Terminal.</P>
+<PRE style="text-align: justify;">$ ssh -X <A class="__cf_email__" href="https://www.unixmen.com/cdn-cgi/l/email-protection" data-cfemail="98eaf7f7ecd8a9a1aab6a9aea0b6a9b6a9a8a9">[email&nbsp;protected]</A>
+<SCRIPT type="text/javascript" data-cfhash="f9e31">/* <![CDATA[ */!function(t,e,r,n,c,a,p){try{t=document.currentScript||function(){for(t=document.getElementsByTagName('script'),e=t.length;e--;)if(t[e].getAttribute('data-cfhash'))return t[e]}();if(t&&(c=t.previousSibling)){p=t.parentNode;if(a=c.getAttribute('data-cfemail')){for(e='',r='0x'+a.substr(0,2)|0,n=2;a.length-n;n+=2)e+='%'+('0'+('0x'+a.substr(n,2)^r).toString(16)).slice(-2);p.replaceChild(document.createTextNode(decodeURIComponent(e)),c)}p.removeChild(t)}}catch(u){}}()/* ]]> */</SCRIPT>
+ /usr/bin/389-console -a http://192.168.1.101:9830</PRE>
+<P style="text-align: justify;">Now you’ll be asked to enter your LDAP server 
+administrative log in details. In my case my LDAP admin name is 
+<STRONG>admin</STRONG> and password is <STRONG>centos</STRONG>.</P>
+<P style="text-align: justify;"><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/389-Management-Console-Login-server.unixmen.local_001.jpg"><IMG 
+width="400" height="145" class="aligncenter size-full wp-image-23818" alt="389 Management Console Login (server.unixmen.local)_001" 
+src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/389-Management-Console-Login-server.unixmen.local_001.jpg" 
+sizes="(max-width: 400px) 100vw, 400px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/389-Management-Console-Login-server.unixmen.local_001.jpg 400w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-Login-server.unixmen.local_001-300x108.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-Login-server.unixmen.local_001-180x65.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-Login-server.unixmen.local_001-360x130.jpg 360w"></A>This 
+is how my admin server console looks.</P>
+<P><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/389-Management-Console-server.unixmen.local_002.jpg"><IMG 
+width="600" height="424" class="aligncenter  wp-image-23819" alt="389 Management Console (server.unixmen.local)_002" 
+src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/389-Management-Console-server.unixmen.local_002.jpg" 
+sizes="(max-width: 600px) 100vw, 600px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_002.jpg 750w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_002-300x212.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_002-180x127.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_002-360x254.jpg 360w"></A>From 
+here you can create, delete or edit LDAP organizational units, groups and users 
+graphically.</P>
+<P style="text-align: justify;">389-ds admin server console has two groups.</P>
+<P style="text-align: justify; padding-left: 30px;">– Administration Server</P>
+<P style="text-align: justify; padding-left: 30px;">– Directory Server</P>
+<P style="text-align: justify;">You can use any one of the server.</P>
+<P style="text-align: justify;"><STRONG>1. Administration Server</STRONG></P>
+<P style="text-align: justify;">To access Administration Server interface, click 
+on your LDAP domain name to expand. Go to <STRONG>Server Group 
+</STRONG>–<STRONG>Administration Server</STRONG> and click <STRONG>Open</STRONG> 
+on the right side. Refer the following screenshot.</P>
+<P><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/389-Management-Console-server.unixmen.local_004.jpg"><IMG 
+width="600" height="424" class="aligncenter  wp-image-23820" alt="389 Management Console (server.unixmen.local)_004" 
+src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/389-Management-Console-server.unixmen.local_004.jpg" 
+sizes="(max-width: 600px) 100vw, 600px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_004.jpg 750w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_004-300x212.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_004-180x127.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_004-360x254.jpg 360w"></A>Configuration 
+tab:</P>
+<P style="text-align: justify;">In the Configuration tab, you change/edit your 
+Admin server ip address, default port, LDAP admin password, default user 
+directory. Also you can define which host names to allow and which ip addresses 
+to allow to access your LDAP server.</P>
+<P><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Administration-Server-server.unixmen.local_005.jpg"><IMG 
+width="600" height="424" class="aligncenter  wp-image-23821" alt="Administration Server (server.unixmen.local)_005" 
+src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Administration-Server-server.unixmen.local_005.jpg" 
+sizes="(max-width: 600px) 100vw, 600px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Administration-Server-server.unixmen.local_005.jpg 750w, https://www.unixmen.com/wp-content/uploads/2013/03/Administration-Server-server.unixmen.local_005-300x212.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/Administration-Server-server.unixmen.local_005-180x127.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/Administration-Server-server.unixmen.local_005-360x254.jpg 360w"></A>Tasks 
+Tab:</P>
+<P style="text-align: justify;">In the Tasks section, you can 
+Stop/Restart/Configure your server.</P>
+<P><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Administration-Server-server.unixmen.local_006.jpg"><IMG 
+width="600" height="424" class="aligncenter  wp-image-23822" alt="Administration Server (server.unixmen.local)_006" 
+src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Administration-Server-server.unixmen.local_006.jpg" 
+sizes="(max-width: 600px) 100vw, 600px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Administration-Server-server.unixmen.local_006.jpg 750w, https://www.unixmen.com/wp-content/uploads/2013/03/Administration-Server-server.unixmen.local_006-300x212.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/Administration-Server-server.unixmen.local_006-180x127.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/Administration-Server-server.unixmen.local_006-360x254.jpg 360w"></A><STRONG>2. 
+Directory server</STRONG></P>
+<P style="text-align: justify;">To access Directory Server interface, click on 
+your LDAP domain name to expand. Go to <STRONG>Server Group 
+</STRONG>–<STRONG>Directory Server</STRONG> and click <STRONG>Open</STRONG> on 
+the right side. Refer the following screenshot.</P>
+<P><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/389-Management-Console-server.unixmen.local_007.jpg"><IMG 
+width="600" height="424" class="aligncenter  wp-image-23823" alt="389 Management Console (server.unixmen.local)_007" 
+src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/389-Management-Console-server.unixmen.local_007.jpg" 
+sizes="(max-width: 600px) 100vw, 600px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_007.jpg 750w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_007-300x212.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_007-180x127.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/389-Management-Console-server.unixmen.local_007-360x254.jpg 360w"></A>In 
+Directory Server section, you can do all necessary configuration for your LDAP 
+server. You can change/modify default port, create users, groups, organizational 
+units etc.</P>
+<P style="text-align: center;"><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/server.unixmen.local-389-Directory-Server-server-server.unixmen.local_008.jpg"><IMG 
+width="600" height="424" class="aligncenter  wp-image-23824" alt="server.unixmen.local - 389 Directory Server - server (server.unixmen.local)_008" 
+src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/server.unixmen.local-389-Directory-Server-server-server.unixmen.local_008.jpg" 
+sizes="(max-width: 600px) 100vw, 600px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/server.unixmen.local-389-Directory-Server-server-server.unixmen.local_008.jpg 750w, https://www.unixmen.com/wp-content/uploads/2013/03/server.unixmen.local-389-Directory-Server-server-server.unixmen.local_008-300x212.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/server.unixmen.local-389-Directory-Server-server-server.unixmen.local_008-180x127.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/server.unixmen.local-389-Directory-Server-server-server.unixmen.local_008-360x254.jpg 360w"></A></P>
+<P style="text-align: justify;">There are lot of options available in Directory 
+Server section. Go thorough the each section and configure as per your 
+requirement.</P>
+<P style="text-align: justify;"><STRONG>Create Organization units, Groups And 
+Users</STRONG></P>
+<P style="text-align: justify;"><STRONG>Create organizational unit:</STRONG></P>
+<P style="text-align: justify;">Go to your <STRONG>Directory Server</STRONG> 
+from the main console. In the <STRONG>Directory</STRONG> tab, right click on 
+your Domain name (ex. Unixmen). Select <STRONG>New -&gt; Organization 
+Unit</STRONG>. Refer the following screen.</P>
+<P><A href="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Menu_011.jpg"><IMG 
+width="563" height="352" class="aligncenter  wp-image-23825" alt="Menu_011" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Menu_011-1024x640.jpg" 
+sizes="(max-width: 563px) 100vw, 563px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Menu_011-1024x640.jpg 1024w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_011-300x187.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_011-180x112.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_011-360x225.jpg 360w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_011-790x493.jpg 790w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_011-1095x684.jpg 1095w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_011-900x562.jpg 900w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_011.jpg 1280w"></A>Enter 
+your OU name (ex. <STRONG>Support Division</STRONG>) and click Ok.</P>
+<P><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Create-New-Organizational-Unit-server.unixmen.local_012.jpg"><IMG 
+width="512" height="384" class="aligncenter  wp-image-23826" alt="Create New Organizational Unit (server.unixmen.local)_012" 
+src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Create-New-Organizational-Unit-server.unixmen.local_012.jpg" 
+sizes="(max-width: 512px) 100vw, 512px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Create-New-Organizational-Unit-server.unixmen.local_012.jpg 640w, https://www.unixmen.com/wp-content/uploads/2013/03/Create-New-Organizational-Unit-server.unixmen.local_012-300x225.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/Create-New-Organizational-Unit-server.unixmen.local_012-180x135.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/Create-New-Organizational-Unit-server.unixmen.local_012-360x270.jpg 360w"></A>The 
+new OU (ex. <STRONG>Support Division</STRONG>) will be created under Unixmen 
+domain.</P>
+<P style="text-align: justify;"><STRONG>Create a Group:</STRONG></P>
+<P style="text-align: justify;">Now navigate to <STRONG>Support Division 
+OU</STRONG> and create a new group (ex. <STRONG>support_group</STRONG>).</P>
+<P><A href="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Menu_013.jpg"><IMG 
+width="563" height="352" class="aligncenter  wp-image-23827" alt="Menu_013" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Menu_013-1024x640.jpg" 
+sizes="(max-width: 563px) 100vw, 563px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Menu_013-1024x640.jpg 1024w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_013-300x187.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_013-180x112.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_013-360x225.jpg 360w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_013-790x493.jpg 790w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_013-1095x684.jpg 1095w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_013-900x562.jpg 900w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_013.jpg 1280w"></A>Enter 
+group name and click Ok.</P>
+<P><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Create-New-Group-server.unixmen.local_014.jpg"><IMG 
+width="512" height="384" class="aligncenter  wp-image-23828" alt="Create New Group (server.unixmen.local)_014" 
+src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Create-New-Group-server.unixmen.local_014.jpg" 
+sizes="(max-width: 512px) 100vw, 512px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Create-New-Group-server.unixmen.local_014.jpg 640w, https://www.unixmen.com/wp-content/uploads/2013/03/Create-New-Group-server.unixmen.local_014-300x225.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/Create-New-Group-server.unixmen.local_014-180x135.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/Create-New-Group-server.unixmen.local_014-360x270.jpg 360w"></A>The 
+new group will be created under Unixmen/Support Division.</P>
+<P style="text-align: justify;"><STRONG>Create User:</STRONG></P>
+<P style="text-align: justify;">Right click on the 
+<STRONG>Support_group</STRONG>, and click <STRONG>New -&gt; User</STRONG>.</P>
+<P><A href="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Menu_015.jpg"><IMG 
+width="563" height="352" class="aligncenter  wp-image-23829" alt="Menu_015" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Menu_015-1024x640.jpg" 
+sizes="(max-width: 563px) 100vw, 563px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Menu_015-1024x640.jpg 1024w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_015-300x187.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_015-180x112.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_015-360x225.jpg 360w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_015-790x493.jpg 790w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_015-1095x684.jpg 1095w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_015-900x562.jpg 900w, https://www.unixmen.com/wp-content/uploads/2013/03/Menu_015.jpg 1280w"></A>Enter 
+the user details such as first name, last name, userid, mail id etc., and click 
+Ok.</P>
+<P><A href="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Create-New-User-server.unixmen.local_016.jpg"><IMG 
+width="512" height="384" class="aligncenter  wp-image-23830" alt="Create New User (server.unixmen.local)_016" 
+src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Create-New-User-server.unixmen.local_016.jpg" 
+sizes="(max-width: 512px) 100vw, 512px" srcset="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/Create-New-User-server.unixmen.local_016.jpg 640w, https://www.unixmen.com/wp-content/uploads/2013/03/Create-New-User-server.unixmen.local_016-300x225.jpg 300w, https://www.unixmen.com/wp-content/uploads/2013/03/Create-New-User-server.unixmen.local_016-180x135.jpg 180w, https://www.unixmen.com/wp-content/uploads/2013/03/Create-New-User-server.unixmen.local_016-360x270.jpg 360w"></A>Verify 
+Organizational Unit, Group, User with following command on our server.</P>
+<PRE style="text-align: justify;"># ldapsearch -x -b "dc=unixmen,dc=local"</PRE>
+<P style="text-align: justify;">Sample output:</P>
+<PRE style="text-align: justify;"># extended LDIF
+#
+# LDAPv3
+# base &lt;dc=unixmen,dc=local&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# unixmen.local
+dn: dc=unixmen,dc=local
+objectClass: top
+objectClass: domain
+dc: unixmen
+
+# Directory Administrators, unixmen.local
+dn: cn=Directory Administrators,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupofuniquenames
+cn: Directory Administrators
+uniqueMember: cn=Directory Manager
+
+# Groups, unixmen.local
+dn: ou=Groups,dc=unixmen,dc=local
+objectClass: top
+objectClass: organizationalunit
+ou: Groups
+
+# People, unixmen.local
+dn: ou=People,dc=unixmen,dc=local
+objectClass: top
+objectClass: organizationalunit
+ou: People
+
+# Special Users, unixmen.local
+dn: ou=Special Users,dc=unixmen,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Special Users
+description: Special Administrative Accounts
+
+# Accounting Managers, Groups, unixmen.local
+dn: cn=Accounting Managers,ou=Groups,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Accounting Managers
+ou: groups
+description: People who can manage accounting entries
+uniqueMember: cn=Directory Manager
+
+# HR Managers, Groups, unixmen.local
+dn: cn=HR Managers,ou=Groups,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: HR Managers
+ou: groups
+description: People who can manage HR entries
+uniqueMember: cn=Directory Manager
+
+# QA Managers, Groups, unixmen.local
+dn: cn=QA Managers,ou=Groups,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: QA Managers
+ou: groups
+description: People who can manage QA entries
+uniqueMember: cn=Directory Manager
+
+# PD Managers, Groups, unixmen.local
+dn: cn=PD Managers,ou=Groups,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: PD Managers
+ou: groups
+description: People who can manage engineer entries
+uniqueMember: cn=Directory Manager
+
+<SPAN style="color: rgb(255, 0, 0);"><STRONG># Support Division, unixmen.local</STRONG></SPAN>
+dn: ou=Support Division,dc=unixmen,dc=local
+ou: Support Division
+objectClass: top
+objectClass: organizationalunit
+
+<SPAN style="color: rgb(255, 0, 0);"><STRONG># support_group, Support Division, unixmen.local</STRONG></SPAN>
+dn: cn=support_group,ou=Support Division,dc=unixmen,dc=local
+objectClass: top
+objectClass: groupofuniquenames
+cn: support_group
+
+<SPAN style="color: rgb(255, 0, 0);"><STRONG># skumar, support_group, Support Division, unixmen.local</STRONG></SPAN>
+dn: uid=skumar,cn=support_group,ou=Support Division,dc=unixmen,dc=local
+mail: <A class="__cf_email__" href="https://www.unixmen.com/cdn-cgi/l/email-protection" data-cfemail="e0938ba0958e89988d858ece838f8d">[email&nbsp;protected]</A>
+<SCRIPT type="text/javascript" data-cfhash="f9e31">/* <![CDATA[ */!function(t,e,r,n,c,a,p){try{t=document.currentScript||function(){for(t=document.getElementsByTagName('script'),e=t.length;e--;)if(t[e].getAttribute('data-cfhash'))return t[e]}();if(t&&(c=t.previousSibling)){p=t.parentNode;if(a=c.getAttribute('data-cfemail')){for(e='',r='0x'+a.substr(0,2)|0,n=2;a.length-n;n+=2)e+='%'+('0'+('0x'+a.substr(n,2)^r).toString(16)).slice(-2);p.replaceChild(document.createTextNode(decodeURIComponent(e)),c)}p.removeChild(t)}}catch(u){}}()/* ]]> */</SCRIPT>
+
+uid: skumar
+givenName: senthil
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetorgperson
+sn: kumar
+cn: senthil kumar
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 13
+# numEntries: 12</PRE>
+<P style="text-align: justify;">As you see in the above output, a new OU called 
+<STRONG>Support Division</STRONG>, a new group called 
+<STRONG>support_vision</STRONG>, a new user called <STRONG>skumar</STRONG> has 
+been created. I have covered only installation part and basic configuration. 
+There are lot to learn about 389 ds. Refer the link provided at the bottom to 
+know more about 389 ds.</P>
+<P style="text-align: justify;">In my personal experience, 389-ds is much easier 
+than openldap in terms of installation and configuration. Let us see how to 
+configure client systems to authenticate using LDAP server in our next 
+article.</P>
+<P style="text-align: justify;">You might want to setup LDAP server in CentOS 7. 
+Check our article in</P>
+<UL>
+  <LI><STRONG><A href="http://www.unixmen.com/install-and-configure-ldap-server-in-centos-7/" 
+  target="_blank">Install And Configure LDAP Server In CentOS 
+7</A></STRONG></LI></UL>
+<P style="text-align: justify;">Have a Good day!</P>
+<P><STRONG>Source &amp; Reference:</STRONG> <A href="http://directory.fedoraproject.org/wiki/Main_Page" 
+target="_blank">http://directory.fedoraproject.org/wiki/Main_Page</A></P>
+<SCRIPT> var hjlxW7pMXCComwc4Gbwy_key = { consumerKey: "wRm77GlddKsQcD2d05bx0O",use_external_settings: true }</SCRIPT>
+
+<SCRIPT src="//web-clients.mynativeplatform.com/bootstrap/stst-configs-bootstrap.js" type="text/javascript" async="true" data-url="[PAGE_URL]" data-version="2" data-zone="[ZONE]"></SCRIPT>
+
+<P></P></DIV><FOOTER>
+<DIV class="td-post-source-tags"></DIV>
+<DIV class="td-post-sharing td-post-sharing-bottom td-with-like"><SPAN class="td-post-share-title">SHARE</SPAN> 
+            
+<DIV class="td-default-sharing"><A class="td-social-sharing-buttons td-social-facebook" 
+onclick="window.open(this.href, 'mywin','left=50,top=50,width=600,height=350,toolbar=0'); return false;" 
+href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fwww.unixmen.com%2Fsetup-directory-serverldap-in-centos-6-4-rhel-6-4%2F"><I 
+class="td-icon-facebook"></I>
+<DIV class="td-social-but-text">Facebook</DIV></A>	             <A class="td-social-sharing-buttons td-social-twitter" 
+href="https://twitter.com/intent/tweet?text=Setup+LDAP+Server+in+CentOS%2C+RHEL%2C+Scientific+linux+6.5%2F6.4%2F6.3&amp;url=https%3A%2F%2Fwww.unixmen.com%2Fsetup-directory-serverldap-in-centos-6-4-rhel-6-4%2F&amp;via=unixmen"><I 
+class="td-icon-twitter"></I>
+<DIV class="td-social-but-text">Twitter</DIV></A>	             <A class="td-social-sharing-buttons td-social-google" 
+onclick="window.open(this.href, 'mywin','left=50,top=50,width=600,height=350,toolbar=0'); return false;" 
+href="http://plus.google.com/share?url=https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/"><I 
+class="td-icon-googleplus"></I></A>	             <A class="td-social-sharing-buttons td-social-pinterest" 
+onclick="window.open(this.href, 'mywin','left=50,top=50,width=600,height=350,toolbar=0'); return false;" 
+href="http://pinterest.com/pin/create/button/?url=https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/&amp;media=https://www.unixmen.com/wp-content/uploads/2013/03/389ds.jpg&amp;description=In this how-to i am gonna to explain about setup LDAP server on CentOS 6.x."><I 
+class="td-icon-pinterest"></I></A>	             <A class="td-social-sharing-buttons td-social-whatsapp" 
+href="whatsapp://send/?text=Setup+LDAP+Server+in+CentOS%2C+RHEL%2C+Scientific+linux+6.5%2F6.4%2F6.3 - https%3A%2F%2Fwww.unixmen.com%2Fsetup-directory-serverldap-in-centos-6-4-rhel-6-4%2F"><I 
+class="td-icon-whatsapp"></I></A>             </DIV>
+<DIV class="td-classic-sharing">
+<UL>
+  <LI class="td-classic-facebook"><IFRAME src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/tweet_button.f7908d4abf5ce27173c69bdbb93aedb6.en.htm" 
+  frameborder="0" style="border: currentColor; border-image: none; width: 105px; height: 21px; overflow: hidden; background-color: transparent;"></IFRAME></LI>
+  <LI class="td-classic-twitter"><A class="twitter-share-button" href="https://twitter.com/share" 
+  data-lang="en" data-via="" data-text="Setup LDAP Server in CentOS, RHEL, Scientific linux 6.5/6.4/6.3" 
+  data-url="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/">tweet</A> 
+
+<SCRIPT>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</SCRIPT>
+  </LI></UL></DIV></DIV>
+<DIV class="td-block-row td-post-next-prev">
+<DIV class="td-block-span6 td-post-prev-post">
+<DIV class="td-post-next-prev-content"><SPAN>Previous article</SPAN><A href="https://www.unixmen.com/install-remi-repository-rhel-centos-scientific-linux-6-x-5-x-fedora-20-19-18/">Install 
+REMI Repository On RHEL / CentOS / Scientific Linux 6.x, 5.x And Fedora 20, 19, 
+18</A></DIV></DIV>
+<DIV class="td-next-prev-separator"></DIV>
+<DIV class="td-block-span6 td-post-next-post">
+<DIV class="td-post-next-prev-content"><SPAN>Next article</SPAN><A href="https://www.unixmen.com/install-great-little-radio-player-ubuntufedoraarchlinux/">Install 
+‘Great Little Radio Player’ Ubuntu/Fedora/ArchLinux</A></DIV></DIV></DIV>
+<DIV class="td-author-name vcard author" style="display: none;"><SPAN 
+class="fn"><A href="https://www.unixmen.com/author/sk/">SK</A></SPAN></DIV><SPAN 
+style="display: none;" itemtype="https://schema.org/Person" itemscope="" 
+itemprop="author">
+<META content="SK" itemprop="name"></SPAN>
+<META content="2013-12-23T11:58:42+00:00" itemprop="datePublished">
+<META content="2015-07-17T12:07:30+00:00" itemprop="dateModified">
+<META itemtype="https://schema.org/WebPage" itemscope="" itemprop="mainEntityOfPage" 
+itemid="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/"><SPAN 
+style="display: none;" itemtype="https://schema.org/Organization" itemscope="" 
+itemprop="publisher"><SPAN style="display: none;" itemtype="https://schema.org/ImageObject" 
+itemscope="" itemprop="logo">
+<META content="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2016/02/unixmen-logo.png" 
+itemprop="url"></SPAN>
+<META content="Unixmen" itemprop="name"></SPAN>
+<META content="Setup LDAP Server in CentOS, RHEL, Scientific linux 6.5/6.4/6.3" 
+itemprop="headline "><SPAN style="display: none;" itemtype="https://schema.org/ImageObject" 
+itemscope="" itemprop="image">
+<META content="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2013/03/389ds.jpg" 
+itemprop="url">
+<META content="100" itemprop="width">
+<META content="100" itemprop="height"></SPAN>        </FOOTER></ARTICLE><!-- /.post --> 
+    
+<SCRIPT>var block_td_uid_1_583c1362e259d = new tdBlock();
+block_td_uid_1_583c1362e259d.id = "td_uid_1_583c1362e259d";
+block_td_uid_1_583c1362e259d.atts = '{"limit":3,"ajax_pagination":"next_prev","live_filter":"cur_post_same_categories","td_ajax_filter_type":"td_custom_related","class":"td_uid_1_583c1362e259d_rand","td_column_number":3,"live_filter_cur_post_id":11345,"live_filter_cur_post_author":"20"}';
+block_td_uid_1_583c1362e259d.td_column_number = "3";
+block_td_uid_1_583c1362e259d.block_type = "td_block_related_posts";
+block_td_uid_1_583c1362e259d.post_count = "3";
+block_td_uid_1_583c1362e259d.found_posts = "1473";
+block_td_uid_1_583c1362e259d.header_color = "";
+block_td_uid_1_583c1362e259d.ajax_pagination_infinite_stop = "";
+block_td_uid_1_583c1362e259d.max_num_pages = "491";
+tdBlocksArray.push(block_td_uid_1_583c1362e259d);
+</SCRIPT>
+
+<DIV class="td_block_wrap td_block_related_posts td_uid_1_583c1362e259d_rand td_with_ajax_pagination td-pb-border-top">
+<H4 class="td-related-title"><A class="td-related-left td-cur-simple-item" id="td_uid_2_583c1362e7202" 
+href="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/#" 
+data-td_block_id="td_uid_1_583c1362e259d" data-td_filter_value="">RELATED 
+ARTICLES</A><A class="td-related-right" id="td_uid_3_583c1362e725c" href="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/#" 
+data-td_block_id="td_uid_1_583c1362e259d" data-td_filter_value="td_related_more_from_author">MORE 
+FROM AUTHOR</A></H4>
+<DIV class="td_block_inner" id="td_uid_1_583c1362e259d">
+<DIV class="td-related-row">
+<DIV class="td-related-span4">
+<DIV class="td_module_related_posts td-animation-stack td_mod_related_posts">
+<DIV class="td-module-image">
+<DIV class="td-module-thumb"><A title="Fedora 25: On the way of Wayland" href="https://www.unixmen.com/fedora-25-way-wayland/" 
+rel="bookmark"><IMG width="218" height="150" title="Fedora 25: On the way of Wayland" 
+class="entry-thumb" alt="" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/fedora-logo-218x150.png"></A></DIV><A 
+class="td-post-category" 
+href="https://www.unixmen.com/category/announcements/">Announcements</A></DIV>
+<DIV class="item-details">
+<H3 class="entry-title td-module-title"><A title="Fedora 25: On the way of Wayland" 
+href="https://www.unixmen.com/fedora-25-way-wayland/" rel="bookmark">Fedora 25: 
+On the way of Wayland</A></H3></DIV></DIV></DIV><!-- ./td-related-span4 -->	 
+<DIV class="td-related-span4">
+<DIV class="td_module_related_posts td-animation-stack td_mod_related_posts">
+<DIV class="td-module-image">
+<DIV class="td-module-thumb"><A title="Transmission-daemon: Setting up Transmission Web On Debian" 
+href="https://www.unixmen.com/transmission-daemon-setting-transmission-web-debian/" 
+rel="bookmark"><IMG width="218" height="150" title="Transmission-daemon: Setting up Transmission Web On Debian" 
+class="entry-thumb" alt="" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Screenshot_20160927_033016-218x150.png"></A></DIV><A 
+class="td-post-category" href="https://www.unixmen.com/category/linux-distributions/">Linux 
+distributions</A></DIV>
+<DIV class="item-details">
+<H3 class="entry-title td-module-title"><A title="Transmission-daemon: Setting up Transmission Web On Debian" 
+href="https://www.unixmen.com/transmission-daemon-setting-transmission-web-debian/" 
+rel="bookmark">Transmission-daemon: Setting up Transmission Web On 
+Debian</A></H3></DIV></DIV></DIV><!-- ./td-related-span4 -->	 
+<DIV class="td-related-span4">
+<DIV class="td_module_related_posts td-animation-stack td_mod_related_posts">
+<DIV class="td-module-image">
+<DIV class="td-module-thumb"><A title="How to install Snap in Fedora24" href="https://www.unixmen.com/install-snap-fedora24/" 
+rel="bookmark"><IMG width="218" height="150" title="How to install Snap in Fedora24" 
+class="entry-thumb" alt="" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/snap-1-218x150.jpg"></A></DIV><A 
+class="td-post-category" href="https://www.unixmen.com/category/frequently-asked-questions/">Frequently 
+Asked Questions</A></DIV>
+<DIV class="item-details">
+<H3 class="entry-title td-module-title"><A title="How to install Snap in Fedora24" 
+href="https://www.unixmen.com/install-snap-fedora24/" rel="bookmark">How to 
+install Snap in 
+Fedora24</A></H3></DIV></DIV></DIV><!-- ./td-related-span4 --></DIV><!--./row-fluid--></DIV>
+<DIV class="td-next-prev-wrap"><A class="td-ajax-prev-page ajax-page-disabled" 
+id="prev-page-td_uid_1_583c1362e259d" href="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/#" 
+data-td_block_id="td_uid_1_583c1362e259d"><I class="td-icon-font td-icon-menu-left"></I></A><A 
+class="td-ajax-next-page" id="next-page-td_uid_1_583c1362e259d" href="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/#" 
+data-td_block_id="td_uid_1_583c1362e259d"><I class="td-icon-font td-icon-menu-right"></I></A></DIV></DIV><!-- ./block --> 
+<DIV id="disqus_thread"></DIV>
+<SCRIPT type="text/javascript">
+var disqus_url = 'https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/';
+var disqus_identifier = '11345 http://www.unixmen.com/?p=11345';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'unixmensite';
+var disqus_title = "Setup LDAP Server in CentOS, RHEL, Scientific linux 6.5\/6.4\/6.3";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    this.page.remote_auth_s3 = 'W10= 8b45edc3377d2cdbc041d059aee43631f778a250 1480332130';
+this.page.api_key = 'pbF5bw1OMY5z4yXsa8H7EcLolcJFmB790sAkUHFDsG1sCK8eXBeuNBjwj2Lnmqcs';
+this.sso = {
+          name: "Unixmen",
+          button: "",
+          url: "https://www.unixmen.com/wp-login.php",
+          logout: "https://www.unixmen.com/wp-login.php?action=logout",
+          width: "800",
+          height: "700"
+    };
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=11345';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</SCRIPT>
+                             </DIV></DIV>
+<DIV class="td-pb-span4 td-main-sidebar" role="complementary">
+<DIV class="td-ss-main-sidebar"><ASIDE class="widget widget_text">
+<DIV class="textwidget"></DIV></ASIDE><ASIDE class="widget widget_text">
+<DIV class="textwidget">
+<STYLE>
+#right_bottom_ad {
+	position: fixed;
+	right: -325px;
+	bottom: 0;
+z-index: 1000;
+	width: 320px;
+	height: 270px;
+	
+	transition: all 0.5s;
+	-webkit-transition: all 0.8s;
+	-moz-transition: all 0.8s;
+	-o-transition: all 0.8s;
+}
+#right_bottom_ad.slide-in {
+	right: 0 !important;
+}
+#right_bottom_ad_close_box {
+	position: absolute;
+	top: 0px;
+	right: 15px;
+margin-top: -30px;
+background: #fff;
+padding: 0px 4px;
+}
+</STYLE>
+ 
+<SCRIPT>
+window.onload = function() {
+	document.getElementById('right_bottom_ad').setAttribute('class', 'slide-in');
+	
+	document.getElementById('right_bottom_ad_close_box').addEventListener('click', function(event){
+    	event.preventDefault();
+    	document.getElementById('right_bottom_ad').removeAttribute('class', 'slide-in');
+	});
+};
+</SCRIPT>
+ 
+<DIV id="right_bottom_ad">
+<DIV id="right_bottom_ad_close_box"><A href="https://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/#">X</A></DIV>
+<DIV class="ad_box">
+<SCRIPT> var hjlxW7pMXCComwc4Gbwy_key = { consumerKey: "KrJCe7MyermQuwvxX1aCti",use_external_settings: true }</SCRIPT>
+
+<SCRIPT src="//web-clients.mynativeplatform.com/bootstrap/stst-configs-bootstrap.js" type="text/javascript" async="true" data-url="[PAGE_URL]" data-version="2" data-zone="[ZONE]"></SCRIPT>
+ </DIV></DIV></DIV></ASIDE><ASIDE class="widget widget_text">
+<DIV class="textwidget">
+<SCRIPT src="//s.ntv.io/serve/load.js" type="text/javascript" async=""></SCRIPT>
+ 
+<DIV style="padding: 10px 0px;"><!--/*
+  *
+  * Revive Adserver Javascript Tag
+  * - Generated with Revive Adserver v3.2.4
+  *
+  */--> <!--/*
+  * The backup image section of this tag has been generated for use on a
+  * non-SSL page. If this tag is to be placed on an SSL page, change the
+  *   'http://delivery.amessagewithabottle.com/www/delivery/...'
+  * to
+  *   'https://delivery.amessagewithabottle.com/www/delivery/...'
+  *
+  * This noscript section of this tag only shows image banners. There
+  * is no width or height in these banners, so if you want these tags to
+  * allocate space for the ad before it shows, you will need to add this
+  * information to the <img> tag.
+  *
+  * If you do not want to deal with the intricities of the noscript
+  * section, delete the tag (from <noscript>... to </noscript>). On
+  * average, the noscript tag is called from less than 1% of internet
+  * users.
+  */--> 
+<SCRIPT type="text/javascript"><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://delivery.amessagewithabottle.com/www/delivery/ajs.php':'http://delivery.amessagewithabottle.com/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=163");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></SCRIPT>
+<NOSCRIPT>&lt;a 
+href='http://delivery.amessagewithabottle.com/www/delivery/ck.php?n=a2bb7049&amp;amp;cb=INSERT_RANDOM_NUMBER_HERE' 
+target='_blank'&gt;&lt;img 
+src='http://delivery.amessagewithabottle.com/www/delivery/avw.php?zoneid=163&amp;amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;amp;n=a2bb7049' 
+border='0' alt='' /&gt;&lt;/a&gt;</NOSCRIPT> </DIV>
+<SCRIPT src="//ap.lijit.com/www/delivery/fpi.js?z=374219&amp;u=theeighth&amp;width=300&amp;height=250" type="text/javascript"></SCRIPT>
+ <!--BEGIN FIRSTIMPRESSION TAG --> 
+<SCRIPT type="text/javascript" data-cfasync="false">
+	window.apd_options = { 'websiteId': 6024, 'runFromFrame': false };
+	(function() {
+		var w = window.apd_options.runFromFrame ? window.top : window;
+		if(window.apd_options.runFromFrame && w!=window.parent) w=window.parent;
+		if (w.location.hash.indexOf('apdAdmin') != -1){if(typeof(Storage) !== 'undefined') {w.localStorage.apdAdmin = 1;}}
+		var adminMode = ((typeof(Storage) == 'undefined') || (w.localStorage.apdAdmin == 1));
+		w.apd_options=window.apd_options;
+		var apd = w.document.createElement('script'); apd.type = 'text/javascript'; apd.async = true;
+		apd.src = '//' + (adminMode ? 'cdn' : 'ecdn') + '.firstimpression.io/' + (adminMode ? 'fi.js?id=' + window.apd_options.websiteId : 'fi_client.js') ;
+		var s = w.document.getElementsByTagName('head')[0]; s.appendChild(apd);
+	})();</SCRIPT>
+ <!-- END FIRSTIMPRESSION TAG --> </DIV></ASIDE><ASIDE class="widget widget_text">
+<DIV class="textwidget">
+<DIV id="fb-root"></DIV>
+<SCRIPT>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</SCRIPT>
+ 
+<DIV class="fb-like" data-share="true" data-show-faces="true" data-action="like" 
+data-layout="button_count" 
+data-href="https://www.facebook.com/unixmencom/"></DIV></DIV></ASIDE><ASIDE 
+class="widget widget_text">
+<DIV class="textwidget">
+<DIV id="crt-500313" style="width: 300px; height: 250px;"></DIV>
+<SCRIPT type="text/javascript">
+Criteo.DisplayAd({
+    "zoneid": 500313,
+    "containerid": "crt-500313"});
+</SCRIPT>
+ 
+<DIV id="crt-500313" style="width: 300px; height: 250px;"></DIV>
+<SCRIPT type="text/javascript">
+Criteo.DisplayAcceptableAdIfAdblocked({
+    "zoneid": 500313,
+    "containerid": "crt-500313"});
+</SCRIPT>
+ 
+<DIV style="padding: 8px 0px;"><!--/*
+  *
+  * Revive Adserver Javascript Tag
+  * - Generated with Revive Adserver v3.2.4
+  *
+  */--> <!--/*
+  * The backup image section of this tag has been generated for use on a
+  * non-SSL page. If this tag is to be placed on an SSL page, change the
+  *   'http://delivery.amessagewithabottle.com/www/delivery/...'
+  * to
+  *   'https://delivery.amessagewithabottle.com/www/delivery/...'
+  *
+  * This noscript section of this tag only shows image banners. There
+  * is no width or height in these banners, so if you want these tags to
+  * allocate space for the ad before it shows, you will need to add this
+  * information to the <img> tag.
+  *
+  * If you do not want to deal with the intricities of the noscript
+  * section, delete the tag (from <noscript>... to </noscript>). On
+  * average, the noscript tag is called from less than 1% of internet
+  * users.
+  */--> 
+<SCRIPT type="text/javascript"><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://delivery.amessagewithabottle.com/www/delivery/ajs.php':'http://delivery.amessagewithabottle.com/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=182");
+   document.write ('&cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&exclude=" + document.MAX_used);
+   document.write (document.charset ? '&charset='+document.charset : (document.characterSet ? '&charset='+document.characterSet : ''));
+   document.write ("&loc=" + escape(window.location));
+   if (document.referrer) document.write ("&referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></SCRIPT>
+<NOSCRIPT>&lt;a 
+href='http://delivery.amessagewithabottle.com/www/delivery/ck.php?n=a4bee081&amp;cb=INSERT_RANDOM_NUMBER_HERE' 
+target='_blank'&gt;&lt;img 
+src='http://delivery.amessagewithabottle.com/www/delivery/avw.php?zoneid=182&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a4bee081' 
+border='0' alt='' /&gt;&lt;/a&gt;</NOSCRIPT> </DIV></DIV></ASIDE><ASIDE class="widget widget_text">
+<DIV class="textwidget"><A class="twitter-follow-button" href="https://twitter.com/unixmen" 
+data-show-count="false">Follow @unixmen</A>
+<SCRIPT src="//platform.twitter.com/widgets.js" charset="utf-8" async=""></SCRIPT>
+ 
+<DIV style="padding: 10px 0px;"><!--/*
+  *
+  * Revive Adserver Javascript Tag
+  * - Generated with Revive Adserver v3.2.4
+  *
+  */--> <!--/*
+  * The backup image section of this tag has been generated for use on a
+  * non-SSL page. If this tag is to be placed on an SSL page, change the
+  *   'http://delivery.amessagewithabottle.com/www/delivery/...'
+  * to
+  *   'https://delivery.amessagewithabottle.com/www/delivery/...'
+  *
+  * This noscript section of this tag only shows image banners. There
+  * is no width or height in these banners, so if you want these tags to
+  * allocate space for the ad before it shows, you will need to add this
+  * information to the <img> tag.
+  *
+  * If you do not want to deal with the intricities of the noscript
+  * section, delete the tag (from <noscript>... to </noscript>). On
+  * average, the noscript tag is called from less than 1% of internet
+  * users.
+  */--> 
+<SCRIPT type="text/javascript"><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://delivery.amessagewithabottle.com/www/delivery/ajs.php':'http://delivery.amessagewithabottle.com/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=167");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></SCRIPT>
+<NOSCRIPT>&lt;a 
+href='http://delivery.amessagewithabottle.com/www/delivery/ck.php?n=aabcd8f5&amp;amp;cb=INSERT_RANDOM_NUMBER_HERE' 
+target='_blank'&gt;&lt;img 
+src='http://delivery.amessagewithabottle.com/www/delivery/avw.php?zoneid=167&amp;amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;amp;n=aabcd8f5' 
+border='0' alt='' /&gt;&lt;/a&gt;</NOSCRIPT> </DIV></DIV></ASIDE><ASIDE class="widget widget_text">
+<DIV class="textwidget">
+<SCRIPT src="//ap.lijit.com/www/delivery/fpi.js?z=374222&amp;u=theeighth&amp;width=300&amp;height=600" type="text/javascript"></SCRIPT>
+</DIV></ASIDE><ASIDE class="widget widget_text">
+<DIV class="textwidget"><A style="padding: 9px 20px; background-color: rgb(204, 204, 204);" 
+href="https://www.unixmen.com/contact-us/">Contact 
+UnixMen</A></DIV></ASIDE><ASIDE class="widget widget_text">
+<DIV class="textwidget">
+<SCRIPT src="//ap.lijit.com/www/delivery/fpi.js?z=375929&amp;u=theeighth&amp;width=160&amp;height=600" type="text/javascript"></SCRIPT>
+ 
+<DIV style="padding: 15px 0px;">
+<SCRIPT src="//ap.lijit.com/www/delivery/fpi.js?z=374221&amp;u=theeighth&amp;width=300&amp;height=250" type="text/javascript"></SCRIPT>
+ </DIV></DIV></ASIDE></DIV></DIV></DIV><!-- /.td-pb-row -->     </DIV><!-- /.td-container --> 
+</DIV><!-- /.td-main-content-wrap --> <!-- Footer --> 
+<DIV class="td-footer-wrapper">
+<DIV class="td-container">
+<DIV class="td-pb-row">
+<DIV class="td-pb-span12">
+<DIV class="td-a-rec td-a-rec-id-footer_top "><!--/*
+  *
+  * Revive Adserver Javascript Tag
+  * - Generated with Revive Adserver v3.2.4
+  *
+  */--> <!--/*
+  * The backup image section of this tag has been generated for use on a
+  * non-SSL page. If this tag is to be placed on an SSL page, change the
+  *   'http://delivery.amessagewithabottle.com/www/delivery/...'
+  * to
+  *   'https://delivery.amessagewithabottle.com/www/delivery/...'
+  *
+  * This noscript section of this tag only shows image banners. There
+  * is no width or height in these banners, so if you want these tags to
+  * allocate space for the ad before it shows, you will need to add this
+  * information to the <img> tag.
+  *
+  * If you do not want to deal with the intricities of the noscript
+  * section, delete the tag (from <noscript>... to </noscript>). On
+  * average, the noscript tag is called from less than 1% of internet
+  * users.
+  */--> 
+<SCRIPT type="text/javascript"><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://delivery.amessagewithabottle.com/www/delivery/ajs.php':'http://delivery.amessagewithabottle.com/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=168");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></SCRIPT>
+<NOSCRIPT>&lt;a 
+href='http://delivery.amessagewithabottle.com/www/delivery/ck.php?n=a6c73d80&amp;amp;cb=INSERT_RANDOM_NUMBER_HERE' 
+target='_blank'&gt;&lt;img 
+src='http://delivery.amessagewithabottle.com/www/delivery/avw.php?zoneid=168&amp;amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;amp;n=a6c73d80' 
+border='0' alt='' /&gt;&lt;/a&gt;</NOSCRIPT> </DIV></DIV></DIV>
+<DIV class="td-pb-row">
+<DIV class="td-pb-span4">
+<SCRIPT>var block_td_uid_4_583c1362eba36 = new tdBlock();
+block_td_uid_4_583c1362eba36.id = "td_uid_4_583c1362eba36";
+block_td_uid_4_583c1362eba36.atts = '{"custom_title":"EDITOR PICKS","limit":3,"sort":"featured","class":"td_uid_4_583c1362eba36_rand"}';
+block_td_uid_4_583c1362eba36.td_column_number = "1";
+block_td_uid_4_583c1362eba36.block_type = "td_block_7";
+block_td_uid_4_583c1362eba36.post_count = "3";
+block_td_uid_4_583c1362eba36.found_posts = "64";
+block_td_uid_4_583c1362eba36.header_color = "";
+block_td_uid_4_583c1362eba36.ajax_pagination_infinite_stop = "";
+block_td_uid_4_583c1362eba36.max_num_pages = "22";
+tdBlocksArray.push(block_td_uid_4_583c1362eba36);
+</SCRIPT>
+
+<DIV class="td_block_wrap td_block_7 td_uid_4_583c1362eba36_rand td-pb-border-top">
+<H4 class="block-title"><SPAN>EDITOR PICKS</SPAN></H4>
+<DIV class="td_block_inner" id="td_uid_4_583c1362eba36">
+<DIV class="td-block-span12">
+<DIV class="td_module_6 td_module_wrap td-animation-stack">
+<DIV class="td-module-thumb"><A title="APT: Rebuilding Package in Debian" href="https://www.unixmen.com/apt-rebuilding-package-debian/" 
+rel="bookmark"><IMG width="100" height="70" title="APT: Rebuilding Package in Debian" 
+class="entry-thumb" alt="" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Screenshot_20160927_234240-100x70.png"></A></DIV>
+<DIV class="item-details">
+<H3 class="entry-title td-module-title"><A title="APT: Rebuilding Package in Debian" 
+href="https://www.unixmen.com/apt-rebuilding-package-debian/" 
+rel="bookmark">APT: Rebuilding Package in Debian</A></H3>
+<DIV class="td-module-meta-info"><A class="td-post-category" href="https://www.unixmen.com/category/linux-tutorials/">Linux 
+tutorials</A>                                                            
+</DIV></DIV></DIV></DIV><!-- ./td-block-span12 -->	 
+<DIV class="td-block-span12">
+<DIV class="td_module_6 td_module_wrap td-animation-stack">
+<DIV class="td-module-thumb"><A title="How to backup with rsync" href="https://www.unixmen.com/how-to-backup-with-rsync/" 
+rel="bookmark"><IMG width="100" height="70" title="How to backup with rsync" 
+class="entry-thumb" alt="" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/lxde-100x70.jpg"></A></DIV>
+<DIV class="item-details">
+<H3 class="entry-title td-module-title"><A title="How to backup with rsync" 
+href="https://www.unixmen.com/how-to-backup-with-rsync/" rel="bookmark">How to 
+backup with rsync</A></H3>
+<DIV class="td-module-meta-info"><A class="td-post-category" href="https://www.unixmen.com/category/featured-2/tips-tricks/">Tips 
+&amp; Tricks</A>                                                            
+</DIV></DIV></DIV></DIV><!-- ./td-block-span12 -->	 
+<DIV class="td-block-span12">
+<DIV class="td_module_6 td_module_wrap td-animation-stack">
+<DIV class="td-module-thumb"><A title="Fun in Terminal" href="https://www.unixmen.com/fun-in-terminal/" 
+rel="bookmark"><IMG width="100" height="70" title="Fun in Terminal" class="entry-thumb" 
+alt="" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/terminal-1-100x70.jpg"></A></DIV>
+<DIV class="item-details">
+<H3 class="entry-title td-module-title"><A title="Fun in Terminal" href="https://www.unixmen.com/fun-in-terminal/" 
+rel="bookmark">Fun in Terminal</A></H3>
+<DIV class="td-module-meta-info"><A class="td-post-category" href="https://www.unixmen.com/category/featured-2/">Featured</A> 
+                                                           
+</DIV></DIV></DIV></DIV><!-- ./td-block-span12 --></DIV></DIV><!-- ./block -->   
+                         </DIV>
+<DIV class="td-pb-span4">
+<SCRIPT>var block_td_uid_5_583c1362f003f = new tdBlock();
+block_td_uid_5_583c1362f003f.id = "td_uid_5_583c1362f003f";
+block_td_uid_5_583c1362f003f.atts = '{"custom_title":"POPULAR POSTS","limit":3,"sort":"popular","class":"td_uid_5_583c1362f003f_rand"}';
+block_td_uid_5_583c1362f003f.td_column_number = "1";
+block_td_uid_5_583c1362f003f.block_type = "td_block_7";
+block_td_uid_5_583c1362f003f.post_count = "3";
+block_td_uid_5_583c1362f003f.found_posts = "2978";
+block_td_uid_5_583c1362f003f.header_color = "";
+block_td_uid_5_583c1362f003f.ajax_pagination_infinite_stop = "";
+block_td_uid_5_583c1362f003f.max_num_pages = "993";
+tdBlocksArray.push(block_td_uid_5_583c1362f003f);
+</SCRIPT>
+
+<DIV class="td_block_wrap td_block_7 td_uid_5_583c1362f003f_rand td-pb-border-top">
+<H4 class="block-title"><SPAN>POPULAR POSTS</SPAN></H4>
+<DIV class="td_block_inner" id="td_uid_5_583c1362f003f">
+<DIV class="td-block-span12">
+<DIV class="td_module_6 td_module_wrap td-animation-stack">
+<DIV class="td-module-thumb"><A title="Everything you should know about RHCSA Certification" 
+href="https://www.unixmen.com/everything-know-rhcsa-certification/" rel="bookmark"><IMG 
+width="100" height="70" title="Everything you should know about RHCSA Certification" 
+class="entry-thumb" alt="" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Everything-you-should-know-about-RHCSA-Certification-100x70.png"></A></DIV>
+<DIV class="item-details">
+<H3 class="entry-title td-module-title"><A title="Everything you should know about RHCSA Certification" 
+href="https://www.unixmen.com/everything-know-rhcsa-certification/" rel="bookmark">Everything 
+you should know about RHCSA Certification</A></H3>
+<DIV class="td-module-meta-info"><A class="td-post-category" href="https://www.unixmen.com/category/linux-distributions/centos/">CentOS</A> 
+                                                           
+</DIV></DIV></DIV></DIV><!-- ./td-block-span12 -->	 
+<DIV class="td-block-span12">
+<DIV class="td_module_6 td_module_wrap td-animation-stack">
+<DIV class="td-module-thumb"><A title="‘Ifconfig’ Command Not Found In CentOS 7 Minimal Installation – A Quick Tip To Fix It" 
+href="https://www.unixmen.com/ifconfig-command-found-centos-7-minimal-installation-quick-tip-fix/" 
+rel="bookmark"><IMG width="100" height="70" title="‘Ifconfig’ Command Not Found In CentOS 7 Minimal Installation – A Quick Tip To Fix It" 
+class="entry-thumb" alt="" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/centos7-100x70.jpg"></A></DIV>
+<DIV class="item-details">
+<H3 class="entry-title td-module-title"><A title="‘Ifconfig’ Command Not Found In CentOS 7 Minimal Installation – A Quick Tip To Fix It" 
+href="https://www.unixmen.com/ifconfig-command-found-centos-7-minimal-installation-quick-tip-fix/" 
+rel="bookmark">‘Ifconfig’ Command Not Found In CentOS 7 Minimal Installation – 
+A...</A></H3>
+<DIV class="td-module-meta-info"><A class="td-post-category" href="https://www.unixmen.com/category/linux-distributions/centos/">CentOS</A> 
+                                                           
+</DIV></DIV></DIV></DIV><!-- ./td-block-span12 -->	 
+<DIV class="td-block-span12">
+<DIV class="td_module_6 td_module_wrap td-animation-stack">
+<DIV class="td-module-thumb"><A title="How to install Univention Corporate Server" 
+href="https://www.unixmen.com/install-univention-corporate-server/" rel="bookmark"><IMG 
+width="100" height="70" title="How to install Univention Corporate Server" 
+class="entry-thumb" alt="Selection_016" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/Selection_016-2-100x70.png"></A></DIV>
+<DIV class="item-details">
+<H3 class="entry-title td-module-title"><A title="How to install Univention Corporate Server" 
+href="https://www.unixmen.com/install-univention-corporate-server/" rel="bookmark">How 
+to install Univention Corporate Server</A></H3>
+<DIV class="td-module-meta-info"><A class="td-post-category" href="https://www.unixmen.com/category/linux-tutorials/">Linux 
+tutorials</A>                                                            
+</DIV></DIV></DIV></DIV><!-- ./td-block-span12 --></DIV></DIV><!-- ./block -->   
+                         </DIV>
+<DIV class="td-pb-span4">
+<DIV class="td_block_wrap td_block_popular_categories td_uid_6_583c13630c384_rand widget widget_categories td-pb-border-top">
+<H4 class="block-title"><SPAN>POPULAR CATEGORY</SPAN></H4>
+<UL class="td-pb-padding-side">
+  <LI><A href="https://www.unixmen.com/category/linux-distributions/">Linux 
+  distributions<SPAN class="td-cat-no">1474</SPAN></A></LI>
+  <LI><A href="https://www.unixmen.com/category/news/software/">Software<SPAN 
+  class="td-cat-no">570</SPAN></A></LI>
+  <LI><A href="https://www.unixmen.com/category/linux-tutorials/">Linux 
+  tutorials<SPAN class="td-cat-no">457</SPAN></A></LI>
+  <LI><A href="https://www.unixmen.com/category/news/">News<SPAN class="td-cat-no">427</SPAN></A></LI>
+  <LI><A 
+  href="https://www.unixmen.com/category/frequently-asked-questions/">Frequently 
+  Asked Questions<SPAN class="td-cat-no">313</SPAN></A></LI>
+  <LI><A href="https://www.unixmen.com/category/opensource/">Opensource<SPAN 
+  class="td-cat-no">268</SPAN></A></LI>
+  <LI><A href="https://www.unixmen.com/category/news/releases/">Releases<SPAN 
+  class="td-cat-no">138</SPAN></A></LI>
+  <LI><A 
+  href="https://www.unixmen.com/category/linux-distributions/centos/">CentOS<SPAN 
+  class="td-cat-no">118</SPAN></A></LI>
+  <LI><A href="https://www.unixmen.com/category/unix/">Unix<SPAN class="td-cat-no">113</SPAN></A></LI></UL></DIV><!-- ./block --> 
+                           </DIV></DIV></DIV>
+<DIV class="td-footer-bottom-full">
+<DIV class="td-container">
+<DIV class="td-pb-row">
+<DIV class="td-pb-span3"><ASIDE class="footer-logo-wrap"><A href="https://www.unixmen.com/"><IMG 
+class="td-retina-data" alt="" src="Setup%20LDAP%20Server%20in%20CentOS,%20RHEL,%20Scientific%20linux%206_5-6_4-6_3%20%20Unixmen_files/unixmen-logo-footer.png" 
+data-retina="https://dwlvaia9r6jw6.cloudfront.net/wp-content/uploads/2016/02/unixmen-logo-footer-retina-300x177.png"></A></ASIDE></DIV>
+<DIV class="td-pb-span5"><ASIDE class="footer-text-wrap">
+<DIV class="block-title"><SPAN>ABOUT US</SPAN></DIV>Unixmen provide Linux 
+Howtos, Tutorials, Tips &amp; Tricks ,Opensource News. It cover most popular 
+distros like Ubuntu, LinuxMint, Fedora, Centos. It is your Gate to the the world 
+of  Linux/Unix and Opensource in General. <BR><BR><A style="font-weight: bold;" 
+href="https://www.unixmen.com/unixmen-privacy-policy/">Privacy Policy</A>
+<DIV class="footer-email-wrap">Contact us: <A href="https://www.unixmen.com/cdn-cgi/l/email-protection#05666a6b71646671252d64712c25716d60606c626d716d6b6071726a776e252d616a712c25666a68">contact 
+(at) theeighthnetwork (dot) com</A></DIV></ASIDE></DIV>
+<DIV class="td-pb-span4"><ASIDE class="footer-social-wrap td-social-style-2">
+<DIV class="block-title"><SPAN>FOLLOW US</SPAN></DIV><SPAN class="td-social-icon-wrap"><A 
+title="Facebook" href="https://www.facebook.com/unixmencom" target="_blank"><I 
+class="td-icon-font td-icon-facebook"></I></A></SPAN><SPAN class="td-social-icon-wrap"><A 
+title="Google+" href="https://plus.google.com/+Unixmen" target="_blank"><I 
+class="td-icon-font td-icon-googleplus"></I></A></SPAN><SPAN class="td-social-icon-wrap"><A 
+title="Linkedin" href="https://www.linkedin.com/groups/3899550/profile" target="_blank"><I 
+class="td-icon-font td-icon-linkedin"></I></A></SPAN><SPAN class="td-social-icon-wrap"><A 
+title="Pinterest" href="https://www.pinterest.com/unixmen/" target="_blank"><I 
+class="td-icon-font td-icon-pinterest"></I></A></SPAN><SPAN class="td-social-icon-wrap"><A 
+title="Reddit" href="https://www.reddit.com/domain/unixmen.com/" 
+target="_blank"><I class="td-icon-font td-icon-reddit"></I></A></SPAN><SPAN 
+class="td-social-icon-wrap"><A title="RSS" href="http://www.unixmen.com/feed/" 
+target="_blank"><I class="td-icon-font td-icon-rss"></I></A></SPAN><SPAN class="td-social-icon-wrap"><A 
+title="Twitter" href="https://twitter.com/unixmen" target="_blank"><I class="td-icon-font td-icon-twitter"></I></A></SPAN><SPAN 
+class="td-social-icon-wrap"><A title="Youtube" href="https://www.youtube.com/user/UnixmenVideos" 
+target="_blank"><I 
+class="td-icon-font td-icon-youtube"></I></A></SPAN></ASIDE></DIV></DIV></DIV></DIV></DIV><!-- Sub Footer --> 
+    
+<DIV class="td-sub-footer-container">
+<DIV class="td-container">
+<DIV class="td-pb-row">
+<DIV class="td-pb-span7 td-sub-footer-menu"></DIV>
+<DIV class="td-pb-span5 td-sub-footer-copy">© Copyright 2015 - Newspaper 6 by 
+TagDiv                </DIV></DIV></DIV></DIV></DIV><!--close content div--> 
+</DIV><!--close td-outer-wrap-->         
+<SCRIPT type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'unixmensite';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </SCRIPT>
+             <!--
+
+        Theme: Newspaper by tagDiv 2015
+        Version: 6.7 (rara)
+        Deploy mode: deploy
+        
+        uid: 583c13630f12f
+    --> 
+    <!-- Custom css form theme panel --> 
+<STYLE type="text/css" media="screen">
+/* custom css theme panel */
+.td-header-style-3 .td-header-sp-logo img {
+    max-height: 135px;}
+.td-header-sp-logo img {
+    position: relative;
+    top: -23px;}
+</STYLE>
+ 
+<SCRIPT src="https://dwlvaia9r6jw6.cloudfront.net/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20" type="text/javascript"></SCRIPT>
+ 
+<SCRIPT type="text/javascript">
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"https:\/\/www.unixmen.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","recaptchaEmpty":"Please verify that you are not a robot.","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</SCRIPT>
+ 
+<SCRIPT src="https://dwlvaia9r6jw6.cloudfront.net/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.4.2" type="text/javascript"></SCRIPT>
+ 
+<SCRIPT type="text/javascript">
+/* <![CDATA[ */
+var qpprFrontData = {"linkData":{"https:\/\/www.unixmen.com\/setup-backup-server-using-bacula-webmin-ubuntu-14-04\/":[0,0,""],"https:\/\/www.unixmen.com\/openkm-open-source-document-management-system\/":[0,0,""],"https:\/\/www.unixmen.com\/grive-unofficial-open-source-linux-client-google-drive\/":[0,0,""],"https:\/\/www.unixmen.com\/retroshare-a-next-generation-secure-communication-and-file-sharing-platforn\/":[0,0,""],"https:\/\/www.unixmen.com\/how-to-share-files-over-network-using-nitroshare\/":[0,0,""],"https:\/\/www.unixmen.com\/install-easy-hosting-control-panel-ehcp-in-ubuntu-1210-server-debian-6\/":[0,0,""],"https:\/\/www.unixmen.com\/install-configure-nagios-4-ubuntu-14-1014-04\/":[0,0,""],"https:\/\/www.unixmen.com\/setup-local-repository-ubuntu-14-0413-1013-04-server\/":[0,0,""],"https:\/\/www.unixmen.com\/setup-local-repository-with-debian-7\/":[0,0,""],"https:\/\/www.unixmen.com\/build-your-own-linux-system-with-suse-studio\/":[0,0,""],"https:\/\/www.unixmen.com\/install-configure-pxe-server-ubuntu-14-04-lts\/":[0,0,""],"https:\/\/www.unixmen.com\/setup-apache-virtual-hosts-on-ubuntu-15-04\/":[0,0,""],"https:\/\/www.unixmen.com\/how-to-install-lemp-stack-on-ubuntu-15-04\/":[0,0,""],"https:\/\/www.unixmen.com\/how-to-install-lamp-stack-on-ubuntu-15-04\/":[0,0,""],"https:\/\/www.unixmen.com\/setup-nginx-server-blocks-virtual-hosts-on-ubuntu-15-04\/":[0,0,""],"https:\/\/www.unixmen.com\/fedora-23-beta-is-out-upgrade-to-fedora-23-from-fedora-22\/":[0,0,""],"https:\/\/www.unixmen.com\/how-to-install-lamp-stack-apache-mariadb-and-php-in-fedora-22\/":[0,0,""],"https:\/\/www.unixmen.com\/install-lemp-server-nginx-mariadb-and-php-on-fedora-22\/":[0,0,""],"https:\/\/www.unixmen.com\/install-postgresql-9-4-phppgadmin-ubuntu-14-10\/":[0,0,""],"https:\/\/www.unixmen.com\/setup-nfs-server-opensuse-13-1\/":[0,0,""],"https:\/\/www.unixmen.com\/setup-ftp-server-opensuse-13-213-1\/":[0,0,""],"https:\/\/www.unixmen.com\/install-dns-server-ubuntu-server-13-10\/":[0,0,""],"https:\/\/www.unixmen.com\/how-to-setup-dns-server-in-ubuntu\/":[0,0,""],"https:\/\/www.unixmen.com\/install-oracle-virtualbox-and-manage-it-using-phpvirtualbox-on-ubuntu-15-04-headless-server\/":[0,0,""],"https:\/\/www.unixmen.com\/install-and-configure-openldap-in-ubuntu-15-04-and-debian-8\/":[0,0,""],"https:\/\/www.unixmen.com\/how-to-install-nagios-4-1-in-ubuntu-15-04\/":[0,0,""],"https:\/\/www.unixmen.com\/how-to-install-linux-kernel-4-2-3\/":[0,0,""]},"siteURL":"https:\/\/www.unixmen.com","siteURLq":"https:\/\/www.unixmen.com"};
+/* ]]> */
+</SCRIPT>
+ 
+<SCRIPT src="https://dwlvaia9r6jw6.cloudfront.net/wp-content/plugins/quick-pagepost-redirect-plugin/js/qppr_frontend_script.min.js?ver=5.1.8" type="text/javascript"></SCRIPT>
+ 
+<SCRIPT src="https://dwlvaia9r6jw6.cloudfront.net/wp-content/themes/Newspaper/js/tagdiv_theme.js?ver=6.7" type="text/javascript"></SCRIPT>
+ 
+<SCRIPT src="https://dwlvaia9r6jw6.cloudfront.net/wp-includes/js/comment-reply.min.js?ver=4.5.4" type="text/javascript"></SCRIPT>
+ 
+<SCRIPT src="https://dwlvaia9r6jw6.cloudfront.net/wp-includes/js/wp-embed.min.js?ver=4.5.4" type="text/javascript"></SCRIPT>
+ <!-- JS generated by theme --> 
+<SCRIPT>
+    
+
+	
+
+		(function(){
+			var html_jquery_obj = jQuery('html');
+
+			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
+
+				var path = 'https://dwlvaia9r6jw6.cloudfront.net/wp-content/themes/Newspaper/style.css';
+
+				jQuery.get(path, function(data) {
+
+					var str_split_separator = '#td_css_split_separator';
+					var arr_splits = data.split(str_split_separator);
+					var arr_length = arr_splits.length;
+
+					if (arr_length > 1) {
+
+						var dir_path = 'https://www.unixmen.com/wp-content/themes/Newspaper';
+						var splited_css = '';
+
+						for (var i = 0; i < arr_length; i++) {
+							if (i > 0) {
+								arr_splits[i] = str_split_separator + ' ' + arr_splits[i];
+							}
+							//jQuery('head').append('<style>' + arr_splits[i] + '</style>');
+
+							var formated_str = arr_splits[i].replace(/\surl\(\'(?!data\:)/gi, function regex_function(str) {
+								return ' url(\'' + dir_path + '/' + str.replace(/url\(\'/gi, '').replace(/^\s+|\s+$/gm,'');
+							});
+
+							splited_css += "<style>" + formated_str + "</style>";
+						}
+
+						var td_theme_css = jQuery('link#td-theme-css');
+
+						if (td_theme_css.length) {
+							td_theme_css.after(splited_css);
+						}
+					}
+				});
+			}
+		})();
+
+	
+	
+</SCRIPT>
+ 
+<SCRIPT type="text/javascript">/* <![CDATA[ */(function(d,s,a,i,j,r,l,m,t){try{l=d.getElementsByTagName('a');t=d.createElement('textarea');for(i=0;l.length-i;i++){try{a=l[i].href;s=a.indexOf('/cdn-cgi/l/email-protection');m=a.length;if(a&&s>-1&&m>28){j=28+s;s='';if(j<m){r='0x'+a.substr(j,2)|0;for(j+=2;j<m&&a.charAt(j)!='X';j+=2)s+='%'+('0'+('0x'+a.substr(j,2)^r).toString(16)).slice(-2);j++;s=decodeURIComponent(s)+a.substr(j,m-j)}t.innerHTML=s.replace(/</g,'&lt;').replace(/>/g,'&gt;');l[i].href='mailto:'+t.value}}catch(e){}}}catch(e){}})(document);/* ]]> */</SCRIPT>
+ </BODY></HTML><!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+Database Caching 29/53 queries in 0.087 seconds using disk
+Object Caching 2403/2507 objects using disk
+Content Delivery Network via Amazon Web Services: CloudFront: dwlvaia9r6jw6.cloudfront.net
+
+ Served from: www.unixmen.com @ 2016-11-28 11:22:11 by W3 Total Cache -->

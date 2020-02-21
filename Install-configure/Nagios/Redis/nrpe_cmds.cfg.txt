@@ -1,0 +1,6 @@
+## Monitor Redis Service
+command[check_redis_procs]=/usr/local/nagios/libexec/nagios-plugins-redis/check_redis.pl -H localhost -p 6379 -t ping
+
+command[check_redis_mem]=/usr/local/nagios/libexec/nagios-plugins-redis/check_redis.pl -H localhost -a --used_memory_rss=WARN:700000000,CRIT:1000000000
+
+command[check_redis_clients]=/usr/local/nagios/libexec/nagios-plugins-redis/check_redis.pl -H localhost -a --connected_clients=WARN:1000, CRIT:1500

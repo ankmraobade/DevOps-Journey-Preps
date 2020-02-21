@@ -1,0 +1,38 @@
+1. sonarqube
+2. sonar-runner
+3. ddatabase
+
+SonarQube Guide
+
+Environmental Variables:
+
+export SONARQUBE_HOME=/opt/sonarqube-5.2
+export PATH=${PATH}:${SONARQUBE_HOME}/bin
+
+export SONAR_RUNNER_HOME=/opt/sonar-runner-2.4
+export PATH=${PATH}:${SONAR_RUNNER_HOME}/bin
+
+Creating MySQL Sonar Database:
+
+CREATE DATABASE sonar CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE USER 'sonar' IDENTIFIED BY 'sonar';
+GRANT ALL ON sonar.* TO 'sonar'@'%' IDENTIFIED BY 'sonar';
+GRANT ALL ON sonar.* TO 'sonar'@'localhost' IDENTIFIED BY 'sonar';
+FLUSH PRIVILEGES;
+
+SonarQube Conf:
+
+Sonar.properties
+sonar.jdbc.username=sonar
+sonar.jdbc.password=sonar
+
+sonar.jdbc.url=jdbc:mysql://www.scm4u.in:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance
+
+Sonar runner Conf:
+Sonar-runner.properties
+
+sonar.host.url=http://www.scm4u.in:9000
+sonar.jdbc.url=jdbc:mysql://www.scm4u.in:3306/sonar?useUnicode=true&amp;characterEncoding=utf8
+sonar.jdbc.username=sonar
+sonar.jdbc.password=sonar

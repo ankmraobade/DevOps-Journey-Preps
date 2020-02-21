@@ -1,0 +1,15 @@
+1. Install Jenkins 1.658, using RPM
+2. Update the Plugins
+3. Stop the jenkins service
+4. Download the Jenkins 2.xx.war version 
+5. Replace the jenkins.war (old) with newly downloaded one in /usr/lib/jenkins
+6. Change the AJP Port no in /etc/sysconfig/jenkins   -->   "JENKINS_AJP_PORT="-1" from 8009
+7. Start the Jenkins service
+8. Stop the jenkins service
+9. Replace the jenkins backup with existing 
+10. Change the Owner/Group - permission on jenkins_home dir contents (if some other ownes)
+11. Start the jenkins service (all set)
+-------------------------------------------------------------------------------------------------
+
+
+

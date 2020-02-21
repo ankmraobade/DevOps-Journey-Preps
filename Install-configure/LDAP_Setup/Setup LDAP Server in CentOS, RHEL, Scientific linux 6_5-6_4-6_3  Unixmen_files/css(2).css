@@ -1,0 +1,12 @@
+@font-face {
+	font-family: Cabin;
+	src: local("Cabin Regular"), local("Cabin-Regular"), url(https://fonts.gstatic.com/s/cabin/v9/JEgmtEDzc-IH8jBshQXrYA.woff) format("woff");
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: Cabin;
+	src: local("Cabin Bold"), local("Cabin-Bold"), url(https://fonts.gstatic.com/s/cabin/v9/haOjnueK8Or1ztuuRtr8dvesZW2xOQ-xsNqO47m55DA.woff) format("woff");
+	font-weight: 700;
+	font-style: normal;
+}
